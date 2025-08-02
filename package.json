@@ -22,6 +22,7 @@
     "@tiptap/starter-kit": "^3.0.9",
     "framer-motion": "^12.23.12",
     "graphql": "^16.11.0",
+    "lucide-react": "^0.536.0",
     "next": "15.4.5",
     "react": "19.1.0",
     "react-dom": "19.1.0",

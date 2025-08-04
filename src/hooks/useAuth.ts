@@ -4,7 +4,7 @@ interface User {
   id: string;
   email: string;
   username: string;
-  avatar?: string;
+  avatar?: string | null;
 }
 
 export function useAuth() {
@@ -35,7 +35,7 @@ export function useAuth() {
         id: '1',
         email: 'user@example.com',
         username: '사용자',
-        avatar: null,
+        avatar: undefined,
       };
 
       setUser(userData);
@@ -63,7 +63,7 @@ export function useAuth() {
         id: '1',
         email,
         username: '사용자',
-        avatar: null,
+        avatar: undefined,
       };
 
       localStorage.setItem('token', token);
@@ -96,7 +96,7 @@ export function useAuth() {
         id: '1',
         email,
         username,
-        avatar: null,
+        avatar: undefined,
       };
 
       localStorage.setItem('token', token);

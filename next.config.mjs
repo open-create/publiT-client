@@ -9,6 +9,9 @@ const nextConfig = {
   env: {
     CUSTOM_KEY: 'my-value',
   },
+  experimental: {
+    optimizePackageImports: ['@chakra-ui/react'],
+  },
   async rewrites() {
     return [
       {

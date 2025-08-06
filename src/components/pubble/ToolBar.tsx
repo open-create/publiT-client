@@ -75,7 +75,7 @@ const TOOL_ITEMS: ToolItem[] = [
   },
   {
     icon: Code,
-    action: 'toggleCodeBlock',
+    action: 'toggleCode',
     activeMark: 'codeBlock',
     log: 'code block',
   },
@@ -132,14 +132,25 @@ export default function ToolBar({ editor }: ToolBarProps) {
             colorScheme={isActive ? 'blue' : 'gray'}
             isDisabled={!canRun}
             onClick={() => {
-              const chain = editor.chain().focus() as any;
-              if (args !== undefined) {
-                chain[action](args);
-              } else {
-                chain[action]();
+              try {
+                console.log('Action:', action);
+                console.log('Args:', args);
+                console.log('Can run:', canRun);
+                console.log('Before HTML:', editor.getHTML());
+
+                const chain = editor.chain().focus() as any;
+                if (args !== undefined) {
+                  chain[action](args); // args가 있으면 전달
+                } else {
+                  chain[action](); // args가 없으면 호출만
+                }
+                chain.run();
+
+                console.log('After HTML:', editor.getHTML());
+                console.log('✅ Success:', log);
+              } catch (error) {
+                console.error('❌ Error:', action, error);
               }
-              chain.run();
-              console.log(log);
             }}
           >
             <Icon />

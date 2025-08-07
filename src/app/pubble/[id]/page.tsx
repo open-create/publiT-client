@@ -1,5 +1,5 @@
 import React from 'react';
-import PostCard from '@/components/publit/PostCard';
+import PostCard from '@/components/pubble/PostCard';
 
 interface PostDetailPageProps {
   params: {

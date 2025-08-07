@@ -1,5 +1,5 @@
 import React from 'react';
-import FeedList from '@/components/publit/FeedList';
+import FeedList from '@/components/pubble/FeedList';
 
 export default function FeedPage() {
   return (

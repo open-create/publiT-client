@@ -1,89 +1,65 @@
 'use client';
 
+import { Button as ChakraButton, ButtonProps as ChakraButtonProps } from '@chakra-ui/react';
 import React from 'react';
-import { Button as ChakraButton } from '@chakra-ui/react';
 
-interface ButtonProps {
-  children: React.ReactNode;
-  variant?: 'primary' | 'secondary' | 'danger' | 'ghost' | 'solid' | 'outline';
-  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
-  disabled?: boolean;
-  onClick?: (e: any) => any;
-  type?: 'button' | 'submit' | 'reset';
+/*───────────────────── 타입─────────────────────*/
+type UiVariant = 'primary' | 'secondary' | 'danger' | 'ghost' | 'outline';
+type UiSize = 'xs' | 'sm' | 'md' | 'lg';
+
+/**  우리가 제어할 prop + Chakra 기본 prop 나머지 */
+interface ButtonProps
+  extends Omit<ChakraButtonProps, 'variant' | 'size' | 'colorPalette' | 'css' | 'accentColor'> {
+  variant?: UiVariant;
+  size?: UiSize;
   fullWidth?: boolean;
-  [key: string]: any; // 추가 props 허용
+  colorPalette?: string;
+  fontSize?: string | number;
 }
 
-// Chakra UI 색상 스킴 매핑
-const getColorScheme = (variant: ButtonProps['variant']) => {
-  switch (variant) {
-    case 'primary':
-      return 'blue';
-    case 'secondary':
-      return 'gray';
-    case 'danger':
-      return 'red';
-    case 'ghost':
-      return 'gray';
-    default:
-      return 'blue';
-  }
+/*───────────────── 매핑 테이블 ─────────────────*/
+type Palette = ChakraButtonProps['colorPalette']; // "blue" | "gray" | "red" | …
+
+const COLOR_PALETTE: Record<UiVariant, Palette> = {
+  primary: 'blue',
+  secondary: 'gray',
+  danger: 'red',
+  ghost: 'gray',
+  outline: 'blue',
 };
 
-// Chakra UI variant 매핑 (완전하게 수정)
-const getChakraVariant = (variant: ButtonProps['variant']) => {
-  switch (variant) {
-    case 'ghost':
-      return 'ghost';
-    case 'outline':
-      return 'outline';
-    case 'solid':
-      return 'solid';
-    default:
-      return 'solid';
-  }
+const VARIANT: Record<UiVariant, ChakraButtonProps['variant']> = {
+  primary: 'solid',
+  secondary: 'outline',
+  danger: 'solid',
+  ghost: 'ghost',
+  outline: 'outline',
 };
 
-// Chakra UI size 매핑
-const getChakraSize = (size: ButtonProps['size']) => {
-  switch (size) {
-    case 'xs':
-      return 'xs';
-    case 'sm':
-      return 'sm';
-    case 'md':
-      return 'md';
-    case 'lg':
-      return 'lg';
-    case 'xl':
-      return 'xl';
-    default:
-      return 'md';
-  }
+const SIZE: Record<UiSize, ChakraButtonProps['size']> = {
+  xs: 'xs',
+  sm: 'sm',
+  md: 'md',
+  lg: 'lg',
 };
 
+/*──────────────────── 컴포넌트 ───────────────────*/
 export default function Button({
   children,
   variant = 'primary',
   size = 'md',
-  disabled = false,
-  onClick,
-  type = 'button',
   fullWidth = false,
-  ...props
+  fontSize,
+  ...rest
 }: ButtonProps) {
   return (
     <ChakraButton
-      colorPalette={getColorScheme(variant)}
-      // colorScheme={getColorScheme(variant)}
-      variant={getChakraVariant(variant)}
-      size={getChakraSize(size)}
-      width={fullWidth ? '100%' : undefined}
-      disabled={disabled}
-      onClick={onClick}
-      type={type}
-      // {...(variant === 'primary' && { bg: 'blue.500', color: 'white' })}
-      {...props}
+      colorPalette={COLOR_PALETTE[variant]}
+      variant={VARIANT[variant]}
+      size={SIZE[size]}
+      w={fullWidth ? '100%' : undefined}
+      fontSize={fontSize}
+      {...rest}
     >
       {children}
     </ChakraButton>

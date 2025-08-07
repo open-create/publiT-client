@@ -2,6 +2,7 @@
 const nextConfig = {
   experimental: {
     appDir: true,
+    optimizePackageImports: ['@chakra-ui/react'],
   },
   images: {
     domains: ['localhost', 'your-domain.com'],

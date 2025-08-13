@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { Flex, Box, HStack, IconButton, Icon, chakra, useDisclosure } from '@chakra-ui/react';
 import Button from '@/components/ui/Button';
 import NotificationModal, { NotificationItem } from '@/components/notifications/NotificationModal';
+import ProfileModal from '@/components/profile/ProfileModal';
 import { BellIcon, NotebookPenIcon } from 'lucide-react';
 
 type HeaderVariant = 'minimal' | 'guest' | 'user' | 'admin';
@@ -81,7 +82,10 @@ export default function Header({ variant = 'minimal' }: HeaderProps) {
             variant="ghost"
             size="sm"
             type="button"
-            onClick={notifDisclosure.onToggle}
+            onClick={() => {
+              if (!notifDisclosure.open) profileDisclosure.onClose();
+              notifDisclosure.onToggle();
+            }}
             data-modal-trigger
             p="0"
             minW="auto"
@@ -106,7 +110,11 @@ export default function Header({ variant = 'minimal' }: HeaderProps) {
             variant="ghost"
             size="sm"
             type="button"
-            onClick={profileDisclosure.onToggle}
+            onClick={() => {
+              if (!profileDisclosure.open) notifDisclosure.onClose();
+              profileDisclosure.onToggle();
+            }}
+            data-modal-trigger
             onMouseDown={(e) => e.stopPropagation()}
             p="0"
             minW="auto"
@@ -156,6 +164,7 @@ export default function Header({ variant = 'minimal' }: HeaderProps) {
       right = null;
   }
 
+  // 목업 데이터
   const mockNotifications: NotificationItem[] = [
     { id: 1, message: 'loveen8201님의 퍼블을 저장했습니다', createdAt: new Date() },
     {
@@ -202,12 +211,35 @@ export default function Header({ variant = 'minimal' }: HeaderProps) {
       </Box>
       {/* 알림 드롭다운: 배경 없이 헤더 바로 아래에 표시 */}
       {notifDisclosure.open && (
-        <Box position="absolute" right={{ base: 20, md: 24 }} mt={2} zIndex={1500}>
+        <Box position="absolute" right={{ base: 20, md: 48 }} mt={2} zIndex={1500}>
           <NotificationModal
             items={mockNotifications}
             onReadAll={() => {}}
             isOpen={notifDisclosure.open}
             onClose={notifDisclosure.onClose}
+            showTitleAction
+            onTitleAction={() => {
+              router.push('/notifications');
+              notifDisclosure.onClose();
+            }}
+          />
+        </Box>
+      )}
+      {profileDisclosure.open && (
+        <Box position="absolute" right={{ base: 4, md: 8 }} mt={2} zIndex={1500}>
+          <ProfileModal
+            isOpen={profileDisclosure.open}
+            onClose={profileDisclosure.onClose}
+            username="김해원"
+            recentActivities={mockNotifications}
+            onEditProfile={() => {
+              router.push('/profile/edit');
+              profileDisclosure.onClose();
+            }}
+            onProfile={() => {
+              router.push('/profile');
+              profileDisclosure.onClose();
+            }}
           />
         </Box>
       )}

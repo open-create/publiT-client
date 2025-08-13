@@ -1,9 +1,9 @@
 'use client';
 
 import React, { useEffect, useRef } from 'react';
-import { Box, Flex, Portal, Text, Icon, BoxProps } from '@chakra-ui/react';
+import { Box, Flex, Portal, Text, Icon, HStack, BoxProps } from '@chakra-ui/react';
 import Button from '@/components/ui/Button';
-import { X } from 'lucide-react';
+import { X, ChevronRight } from 'lucide-react';
 
 type ModalSize = 'sm' | 'md' | 'lg' | 'xl' | 'full';
 
@@ -17,6 +17,9 @@ interface ModalProps {
   closeOnOverlayClick?: boolean;
   hideCloseButton?: boolean;
   showCloseButton?: boolean; // header X 버튼 노출 여부
+  showTitle?: boolean; // 제목 노출 여부
+  showTitleAction?: boolean; // 제목 옆 화살표 버튼 노출 여부
+  onTitleAction?: () => void; // 화살표 버튼 클릭 핸들러
   withOverlay?: boolean; // false면 배경/포털 없이 인라인 드롭다운처럼 렌더
   containerProps?: Partial<Omit<BoxProps, 'css' | 'accentColor'>>; // v3 타입 충돌 방지
   closeOnOutsideClick?: boolean; // 배경/바깥 클릭 시 무조건 닫기 (기본 true)
@@ -32,6 +35,9 @@ export default function Modal({
   closeOnOverlayClick = true,
   hideCloseButton = false,
   showCloseButton,
+  showTitle = true,
+  showTitleAction = false,
+  onTitleAction,
   withOverlay = true,
   containerProps,
   closeOnOutsideClick = true,
@@ -78,6 +84,7 @@ export default function Modal({
   };
 
   const shouldShowClose = showCloseButton !== undefined ? showCloseButton : !hideCloseButton;
+  const shouldShowHeader = (showTitle && !!title) || shouldShowClose;
 
   // 인라인(배경 없음) 모드
   if (!withOverlay) {
@@ -94,18 +101,37 @@ export default function Modal({
         {...containerProps}
         ref={contentRef}
       >
-        {(title || !hideCloseButton) && (
+        {shouldShowHeader && (
           <Flex
             align="center"
             justify="space-between"
-            p={4}
+            pt={4}
+            pb={3}
+            pl={4}
             borderBottom="1px solid"
             borderColor="gray.100"
           >
-            {title ? (
-              <Text id="ui-modal-title" fontSize="md" fontWeight="medium">
-                {title}
-              </Text>
+            {showTitle && title ? (
+              <HStack gap={1}>
+                <Text id="ui-modal-title" fontSize="md" fontWeight="medium">
+                  {title}
+                </Text>
+                {showTitleAction && (
+                  <Button
+                    variant="ghost"
+                    size="xs"
+                    onClick={onTitleAction}
+                    p="0"
+                    minW="auto"
+                    h="auto"
+                    color="gray.500"
+                    _hover={{ color: 'gray.700', bg: 'transparent' }}
+                    aria-label="이동"
+                  >
+                    <Icon as={ChevronRight} boxSize={6} />
+                  </Button>
+                )}
+              </HStack>
             ) : (
               <span />
             )}
@@ -169,7 +195,7 @@ export default function Modal({
             pointerEvents="auto"
             ref={contentRef}
           >
-            {(title || !hideCloseButton) && (
+            {shouldShowHeader && (
               <Flex
                 align="center"
                 justify="space-between"
@@ -177,10 +203,27 @@ export default function Modal({
                 borderBottom="1px solid"
                 borderColor="gray.100"
               >
-                {title ? (
-                  <Text id="ui-modal-title" fontSize="lg" fontWeight="medium">
-                    {title}
-                  </Text>
+                {showTitle && title ? (
+                  <HStack gap={1}>
+                    <Text id="ui-modal-title" fontSize="lg" fontWeight="medium">
+                      {title}
+                    </Text>
+                    {showTitleAction && (
+                      <Button
+                        variant="ghost"
+                        size="xs"
+                        onClick={onTitleAction}
+                        p="0"
+                        minW="auto"
+                        h="auto"
+                        color="gray.500"
+                        _hover={{ color: 'gray.700', bg: 'transparent' }}
+                        aria-label="이동"
+                      >
+                        <Icon as={ChevronRight} boxSize={4} />
+                      </Button>
+                    )}
+                  </HStack>
                 ) : (
                   <span />
                 )}

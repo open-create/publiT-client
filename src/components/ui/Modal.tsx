@@ -57,12 +57,14 @@ export default function Modal({
     if (!isOpen || withOverlay === true || !closeOnOutsideClick) return;
     const handleClick = (e: MouseEvent) => {
       const target = e.target as Node | null;
+      // 트리거 버튼(예: data-modal-trigger) 클릭은 무시하여 토글 시 재오픈 현상 방지
+      if ((target as Element | null)?.closest?.('[data-modal-trigger]')) return;
       if (contentRef.current && target && !contentRef.current.contains(target)) {
         onClose();
       }
     };
-    document.addEventListener('mousedown', handleClick);
-    return () => document.removeEventListener('mousedown', handleClick);
+    document.addEventListener('click', handleClick, { capture: true });
+    return () => document.removeEventListener('click', handleClick, { capture: true } as any);
   }, [isOpen, withOverlay, closeOnOutsideClick, onClose]);
 
   if (!isOpen) return null;

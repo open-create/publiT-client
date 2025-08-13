@@ -2,8 +2,8 @@ import {
   useQuery,
   useMutation,
   useInfiniteQuery,
-  UseQueryOptions,
-  UseMutationOptions,
+  type UseQueryOptions,
+  type UseMutationOptions,
 } from '@tanstack/react-query';
 import { request, ApiError } from '@/lib/api';
 
@@ -16,13 +16,13 @@ export function useApiQuery<TData = unknown, TError = ApiError>(
 ) {
   return useQuery<TData, TError, TData, typeof key>({
     queryKey: key,
-    queryFn: () => request<TData>(path, init),
+    // React Query가 주는 signal을 fetch에 연결 → 언마운트/리페치 시 자동 abort
+    queryFn: ({ signal }) => request<TData>(path, { ...init, signal }),
     ...options,
   });
 }
 
-// POST/PUT/PATCH/DELETE
-// 기본 에러 타입을 ApiError로 두어 status 코드 분기가 쉬워지게 함
+// 변경계
 export function useApiMutation<TInput = unknown, TData = unknown, TError = ApiError>(
   path: string,
   method: 'POST' | 'PUT' | 'PATCH' | 'DELETE' = 'POST',
@@ -35,11 +35,17 @@ export function useApiMutation<TInput = unknown, TData = unknown, TError = ApiEr
 }
 
 // 무한 스크롤
-export function useApiInfinite<TPage = any>(path: string, pageParamKey = 'page') {
+export function useApiInfinite<TPage = any>(
+  path: string,
+  pageParamKey = 'page',
+  opts?: { initialPageParam?: number }
+) {
+  const initial = opts?.initialPageParam ?? 1;
   return useInfiniteQuery({
-    queryKey: [path],
-    queryFn: ({ pageParam = 1 }) => request<TPage>(`${path}?${pageParamKey}=${pageParam}`),
-    initialPageParam: 1,
+    queryKey: [path, pageParamKey], // 키 안정화
+    queryFn: ({ pageParam = initial, signal }) =>
+      request<TPage>(`${path}?${pageParamKey}=${pageParam}`, { signal }),
+    initialPageParam: initial,
     getNextPageParam: (last: any) => last?.nextPage ?? false,
   });
 }

@@ -1,7 +1,9 @@
 'use client';
 
 import React, { useEffect, useRef } from 'react';
-import { Box, Flex, Portal, Text, chakra, BoxProps } from '@chakra-ui/react';
+import { Box, Flex, Portal, Text, Icon, BoxProps } from '@chakra-ui/react';
+import Button from '@/components/ui/Button';
+import { X } from 'lucide-react';
 
 type ModalSize = 'sm' | 'md' | 'lg' | 'xl' | 'full';
 
@@ -99,22 +101,26 @@ export default function Modal({
             borderColor="gray.100"
           >
             {title ? (
-              <Text id="ui-modal-title" fontSize="lg" fontWeight="medium">
+              <Text id="ui-modal-title" fontSize="md" fontWeight="medium">
                 {title}
               </Text>
             ) : (
               <span />
             )}
             {shouldShowClose && (
-              <chakra.button
-                type="button"
-                aria-label="닫기"
+              <Button
+                variant="ghost"
+                size="sm"
                 onClick={onClose}
+                p="0"
+                minW="auto"
+                h="auto"
                 color="gray.500"
-                _hover={{ color: 'gray.700' }}
+                _hover={{ color: 'gray.700', bg: 'transparent' }}
+                aria-label="닫기"
               >
-                ×
-              </chakra.button>
+                <Icon as={X} boxSize={4} />
+              </Button>
             )}
           </Flex>
         )}
@@ -177,15 +183,19 @@ export default function Modal({
                   <span />
                 )}
                 {shouldShowClose && (
-                  <chakra.button
-                    type="button"
-                    aria-label="닫기"
+                  <Button
+                    variant="ghost"
+                    size="sm"
                     onClick={onClose}
+                    p="0"
+                    minW="auto"
+                    h="auto"
                     color="gray.500"
-                    _hover={{ color: 'gray.700' }}
+                    _hover={{ color: 'gray.700', bg: 'transparent' }}
+                    aria-label="닫기"
                   >
-                    ×
-                  </chakra.button>
+                    <Icon as={X} boxSize={4} />
+                  </Button>
                 )}
               </Flex>
             )}

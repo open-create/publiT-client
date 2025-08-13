@@ -1,5 +1,6 @@
+'use client';
+
 import type { Editor } from '@tiptap/react';
-import Button from '../ui/Button';
 import {
   Bold,
   Strikethrough,
@@ -19,6 +20,7 @@ import {
   Image,
   Table as TableIcon,
 } from 'lucide-react';
+import Button from '@/components/ui/Button';
 
 type ToolBarProps = {
   editor: Editor | null;
@@ -128,9 +130,9 @@ export default function ToolBar({ editor }: ToolBarProps) {
           <Button
             key={action + (args ? JSON.stringify(args) : '')}
             type="button"
-            variant={isActive ? 'solid' : 'outline'}
-            colorScheme={isActive ? 'blue' : 'gray'}
-            isDisabled={!canRun}
+            variant={isActive ? 'primary' : 'outline'}
+            colorPalette={isActive ? 'blue' : 'gray'}
+            disabled={!canRun}
             onClick={() => {
               try {
                 console.log('Action:', action);

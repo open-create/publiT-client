@@ -1,7 +1,9 @@
 'use client';
 
-import { Box, HStack, VStack, Text } from '@chakra-ui/react';
 import React from 'react';
+import { useRouter } from 'next/navigation';
+import { Box, HStack, VStack, Text } from '@chakra-ui/react';
+import { formatRelativeTime } from '@/utils/relativeTime';
 import Modal from '@/components/ui/Modal';
 
 export type NotificationItem = {
@@ -15,29 +17,11 @@ interface NotificationModalProps {
   items: NotificationItem[];
   onReadAll?: () => void;
   width?: string | number;
-  maxVisible?: number; // only affects visual height via maxH
-  isOpen?: boolean; // inline modal
+  maxVisible?: number;
+  isOpen?: boolean;
   onClose?: () => void;
-}
-
-function formatRelativeTime(input: string | Date): string {
-  const now = new Date().getTime();
-  const t = typeof input === 'string' ? new Date(input).getTime() : input.getTime();
-  const diffMs = Math.max(0, now - t);
-  const min = 60 * 1000;
-  const hour = 60 * min;
-  const day = 24 * hour;
-  const week = 7 * day;
-
-  if (diffMs < min) return '방금 전';
-  if (diffMs < hour) return `${Math.floor(diffMs / min)}분 전`;
-  if (diffMs < day) return `${Math.floor(diffMs / hour)}시간 전`;
-  if (diffMs < week) return `${Math.floor(diffMs / day)}일 전`;
-  const d = new Date(t);
-  const y = d.getFullYear();
-  const m = String(d.getMonth() + 1).padStart(2, '0');
-  const dd = String(d.getDate()).padStart(2, '0');
-  return `${y}.${m}.${dd}`;
+  showTitleAction?: boolean;
+  onTitleAction?: () => void;
 }
 
 export default function NotificationModal({
@@ -47,7 +31,10 @@ export default function NotificationModal({
   maxVisible = 5,
   isOpen = true,
   onClose = () => {},
+  showTitleAction,
+  onTitleAction,
 }: NotificationModalProps) {
+  const router = useRouter();
   const data = items.slice(0, 10);
   const maxH = typeof maxVisible === 'number' ? `${maxVisible * 72 + 96}px` : '360px';
 
@@ -59,6 +46,8 @@ export default function NotificationModal({
       size="md"
       containerProps={{ w: width, position: 'relative' }}
       title="알림"
+      showTitleAction={showTitleAction}
+      onTitleAction={onTitleAction ?? (() => router.push('/notifications'))}
       showCloseButton={false}
       closeOnOutsideClick
     >

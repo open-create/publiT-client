@@ -1,4 +1,3 @@
-// src/theme.ts  ─ Chakra UI v3
 import { createSystem, defaultConfig, defineConfig } from '@chakra-ui/react';
 
 export const system = createSystem(
@@ -61,5 +60,4 @@ export const system = createSystem(
   })
 );
 
-/* 선택 사항: default export 도 달아두면 import 편해져요 */
 export default system;

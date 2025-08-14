@@ -43,8 +43,20 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     >
       <body>
         <Provider>
-          <HeaderShell isLoggedIn={isLoggedIn} role={role} />
-          {children}
+          <div style={{ height: '100dvh', display: 'flex', flexDirection: 'column' }}>
+            <HeaderShell isLoggedIn={isLoggedIn} role={role} />
+            <main
+              style={{
+                flex: '1 1 auto',
+                height: '100%',
+                minHeight: 0,
+                display: 'flex',
+                flexDirection: 'column',
+              }}
+            >
+              {children}
+            </main>
+          </div>
         </Provider>
       </body>
     </html>

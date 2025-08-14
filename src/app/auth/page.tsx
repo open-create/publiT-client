@@ -7,8 +7,8 @@ import { LoginForm, AutoLoginCheckbox } from '@/components/auth';
 
 export default function AuthPage() {
   return (
-    <Container maxW="1920px">
-      <Flex align="center" justify="center" minH="100vh">
+    <Container maxW="1920px" h="100%" display="flex" flexDirection="column">
+      <Flex align="center" justify="center" flex="1" minH={0}>
         <Box w="100%" maxW="27rem">
           <Heading size="3xl" mb={6} textAlign="left" color="blue.500">
             로그인

@@ -33,7 +33,7 @@ export default function Header({ variant = 'minimal' }: HeaderProps) {
   /* 공통: 왼쪽 로고 */
   const Logo = (
     <NextLink href="/">
-      <Image src="/assets/logo_pic.png" alt="logo" width={148} height={32} />
+      <Image src="/assets/logo_pic.png" alt="logo" width={124} height={24} />
     </NextLink>
   );
 
@@ -202,16 +202,24 @@ export default function Header({ variant = 'minimal' }: HeaderProps) {
   ];
 
   return (
-    <>
-      <Box as="header" w="100%" px={{ base: 4, md: 6 }} py="3" boxShadow="sm" bg="white">
-        <Flex align="center" justify="space-between">
-          {Logo}
-          {right}
-        </Flex>
-      </Box>
-      {/* 알림 드롭다운: 배경 없이 헤더 바로 아래에 표시 */}
+    <Box
+      as="header"
+      w="100%"
+      px={{ base: 2, md: 4 }}
+      py="2.5"
+      pb="3"
+      boxShadow="sm"
+      bg="white"
+      position="relative"
+      zIndex={1000}
+    >
+      <Flex align="center" justify="space-between">
+        {Logo}
+        {right}
+      </Flex>
+      {/* 알림 드롭다운: 헤더 기준 절대 위치 */}
       {notifDisclosure.open && (
-        <Box position="absolute" right={{ base: 20, md: 48 }} mt={2} zIndex={1500}>
+        <Box position="absolute" top="100%" right={{ base: 20, md: 48 }} mt={2} zIndex={1500}>
           <NotificationModal
             items={mockNotifications}
             onReadAll={() => {}}
@@ -226,7 +234,7 @@ export default function Header({ variant = 'minimal' }: HeaderProps) {
         </Box>
       )}
       {profileDisclosure.open && (
-        <Box position="absolute" right={{ base: 4, md: 8 }} mt={2} zIndex={1500}>
+        <Box position="absolute" top="100%" right={{ base: 4, md: 8 }} mt={2} zIndex={1500}>
           <ProfileModal
             isOpen={profileDisclosure.open}
             onClose={profileDisclosure.onClose}
@@ -243,6 +251,6 @@ export default function Header({ variant = 'minimal' }: HeaderProps) {
           />
         </Box>
       )}
-    </>
+    </Box>
   );
 }

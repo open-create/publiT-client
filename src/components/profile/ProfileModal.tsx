@@ -3,7 +3,7 @@
 import React from 'react';
 import { Box, HStack, VStack, Text, Icon } from '@chakra-ui/react';
 import { LogOut, Settings, ChevronRight } from 'lucide-react';
-import { formatRelativeTime } from '@/utils/relativeTime';
+import { formatRelativeTime } from '@/utils/formatDate';
 import Modal from '@/components/ui/Modal';
 import Button from '@/components/ui/Button';
 

@@ -3,7 +3,7 @@
 import React from 'react';
 import { useRouter } from 'next/navigation';
 import { Box, HStack, VStack, Text } from '@chakra-ui/react';
-import { formatRelativeTime } from '@/utils/relativeTime';
+import { formatRelativeTime } from '@/utils/formatDate';
 import Modal from '@/components/ui/Modal';
 
 export type NotificationItem = {

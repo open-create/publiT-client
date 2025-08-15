@@ -1,4 +1,5 @@
-export function getHeaderVariant({
+// 경로와 사용자 상태에 따른 헤더 변형 결정
+export function determineHeaderVariant({
   pathname,
   isLoggedIn,
   role,

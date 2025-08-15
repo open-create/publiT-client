@@ -259,7 +259,7 @@ export default function ContributionGrid({
       </HStack>
 
       {/* 하단 정보 및 범례 */}
-      <HStack justify="space-between" align="center" w="100%" maxW="900px">
+      <HStack justify="space-between" align="center" w="100%" maxW="62.5rem">
         <Text fontSize="xs" color="gray.600">
           {totalActivities} activities in {currentYear}
         </Text>

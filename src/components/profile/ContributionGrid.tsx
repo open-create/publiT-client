@@ -165,7 +165,7 @@ export default function ContributionGrid({
       {/* 메인 컨테이너: 잔디 + 연도 선택창 */}
       <HStack align="flex-start" gap={6}>
         {/* 잔디 컨테이너 (스크롤 가능) */}
-        <Box w="100%" maxW="600px" overflowX="auto" ref={scrollContainerRef}>
+        <Box w="100%" maxW="62.5rem" overflowX="auto" ref={scrollContainerRef}>
           <Flex direction="column" gap={3} minW="fit-content">
             {/* 잔디 본체 */}
             <Box>
@@ -259,7 +259,7 @@ export default function ContributionGrid({
       </HStack>
 
       {/* 하단 정보 및 범례 */}
-      <HStack justify="space-between" align="center" w="100%" maxW="600px">
+      <HStack justify="space-between" align="center" w="100%" maxW="900px">
         <Text fontSize="xs" color="gray.600">
           {totalActivities} activities in {currentYear}
         </Text>

@@ -1,8 +1,10 @@
+// 이메일 주소 유효성 검증
 export function validateEmail(email: string): boolean {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return emailRegex.test(email);
 }
 
+// 비밀번호 강도 검증
 export function validatePassword(password: string): {
   isValid: boolean;
   errors: string[];
@@ -35,6 +37,7 @@ export function validatePassword(password: string): {
   };
 }
 
+// 사용자명 유효성 검증
 export function validateUsername(username: string): {
   isValid: boolean;
   errors: string[];
@@ -59,6 +62,7 @@ export function validateUsername(username: string): {
   };
 }
 
+// 필수 입력 필드 검증
 export function validateRequired(
   value: string,
   fieldName: string
@@ -76,6 +80,7 @@ export function validateRequired(
   return { isValid: true };
 }
 
+// 최소 길이 검증
 export function validateMinLength(
   value: string,
   minLength: number,
@@ -94,6 +99,7 @@ export function validateMinLength(
   return { isValid: true };
 }
 
+// 최대 길이 검증
 export function validateMaxLength(
   value: string,
   maxLength: number,
@@ -112,6 +118,7 @@ export function validateMaxLength(
   return { isValid: true };
 }
 
+// URL 형식 검증
 export function validateUrl(url: string): boolean {
   try {
     new URL(url);

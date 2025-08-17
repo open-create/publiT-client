@@ -8,6 +8,7 @@ import ProfileSideHeader from '@/components/profile/ProfileSideHeader';
 import ViewsChart from '@/components/profile/ViewsChart';
 import VisitsChart from '@/components/profile/VisitsChart';
 import PostsList from '@/components/profile/PostsList';
+import TrafficSource from '@/components/profile/TrafficSource';
 
 // 년도별 활동 데이터 (실제로는 API에서 가져올 데이터)
 const mockDataByYear: Record<number, { date: string; count: number }[]> = {
@@ -93,6 +94,198 @@ export default function MyProfilePage() {
     viewsChartData: [], // 추후 실제 차트 데이터
     visitsChartData: [], // 추후 실제 차트 데이터
   };
+
+  // 프로필 유입 경로 데이터
+  const profileTrafficData = [
+    {
+      name: '검색 엔진',
+      count: 4520,
+      percentage: 45,
+      icon: 'search' as const,
+      details: [
+        {
+          url: 'https://www.google.com/search?q=김해원+개발자',
+          title: 'Google 검색 - 김해원 개발자',
+          visits: 2340,
+        },
+        {
+          url: 'https://search.naver.com/search.naver?query=퍼블릿+김해원',
+          title: '네이버 검색 - 퍼블릿 김해원',
+          visits: 1280,
+        },
+        {
+          url: 'https://www.google.com/search?q=React+개발자+김해원',
+          title: 'Google 검색 - React 개발자 김해원',
+          visits: 900,
+        },
+      ],
+    },
+    {
+      name: '소셜 미디어',
+      count: 2890,
+      percentage: 29,
+      icon: 'share' as const,
+      details: [
+        {
+          url: 'https://twitter.com/username/status/123456',
+          title: 'Twitter - 개발 팁 공유',
+          visits: 1560,
+        },
+        {
+          url: 'https://www.linkedin.com/posts/username_react-development',
+          title: 'LinkedIn - React 개발 경험',
+          visits: 890,
+        },
+        { url: 'https://github.com/username', title: 'GitHub 프로필', visits: 440 },
+      ],
+    },
+    {
+      name: '직접 방문',
+      count: 1560,
+      percentage: 16,
+      icon: 'trending' as const,
+      details: [
+        {
+          url: 'https://publit.com/profile/kimhaewon',
+          title: '퍼블릿 프로필 직접 접근',
+          visits: 1200,
+        },
+        { url: 'https://publit.com', title: '퍼블릿 메인페이지', visits: 360 },
+      ],
+    },
+    {
+      name: '외부 링크',
+      count: 890,
+      percentage: 9,
+      icon: 'external' as const,
+      details: [
+        {
+          url: 'https://blog.naver.com/techblog/123456',
+          title: '네이버 블로그 - 개발자 인터뷰',
+          visits: 520,
+        },
+        {
+          url: 'https://medium.com/@username/react-tips',
+          title: 'Medium - React 개발 팁',
+          visits: 370,
+        },
+      ],
+    },
+    {
+      name: '추천',
+      count: 180,
+      percentage: 1,
+      icon: 'users' as const,
+      details: [
+        { url: 'https://publit.com/profile/friend1', title: '친구 프로필에서 추천', visits: 120 },
+        { url: 'https://publit.com/community/react', title: 'React 커뮤니티 추천', visits: 60 },
+      ],
+    },
+  ];
+
+  // 게시물 유입 경로 데이터
+  const postTrafficData = [
+    {
+      name: '검색 엔진',
+      count: 6230,
+      percentage: 52,
+      icon: 'search' as const,
+      details: [
+        {
+          url: 'https://www.google.com/search?q=React+18+새로운+기능',
+          title: 'Google 검색 - React 18 새로운 기능',
+          visits: 3450,
+        },
+        {
+          url: 'https://search.naver.com/search.naver?query=TypeScript+마이그레이션',
+          title: '네이버 검색 - TypeScript 마이그레이션',
+          visits: 1780,
+        },
+        {
+          url: 'https://www.google.com/search?q=Next.js+App+Router',
+          title: 'Google 검색 - Next.js App Router',
+          visits: 1000,
+        },
+      ],
+    },
+    {
+      name: '소셜 미디어',
+      count: 3240,
+      percentage: 27,
+      icon: 'share' as const,
+      details: [
+        {
+          url: 'https://twitter.com/username/status/789012',
+          title: 'Twitter - React 18 리뷰',
+          visits: 1890,
+        },
+        {
+          url: 'https://www.linkedin.com/posts/username_typescript',
+          title: 'LinkedIn - TypeScript 팁',
+          visits: 980,
+        },
+        {
+          url: 'https://github.com/username/nextjs-guide',
+          title: 'GitHub - Next.js 가이드',
+          visits: 370,
+        },
+      ],
+    },
+    {
+      name: '직접 방문',
+      count: 1680,
+      percentage: 14,
+      icon: 'trending' as const,
+      details: [
+        {
+          url: 'https://publit.com/posts/react-18-features',
+          title: 'React 18 포스트 직접 접근',
+          visits: 1200,
+        },
+        {
+          url: 'https://publit.com/posts/typescript-migration',
+          title: 'TypeScript 포스트 직접 접근',
+          visits: 480,
+        },
+      ],
+    },
+    {
+      name: '외부 링크',
+      count: 650,
+      percentage: 5,
+      icon: 'external' as const,
+      details: [
+        {
+          url: 'https://dev.to/username/react-18-guide',
+          title: 'Dev.to - React 18 가이드',
+          visits: 420,
+        },
+        {
+          url: 'https://hashnode.com/@username/nextjs-tips',
+          title: 'Hashnode - Next.js 팁',
+          visits: 230,
+        },
+      ],
+    },
+    {
+      name: '추천',
+      count: 220,
+      percentage: 2,
+      icon: 'users' as const,
+      details: [
+        {
+          url: 'https://publit.com/profile/colleague1',
+          title: '동료 프로필에서 추천',
+          visits: 150,
+        },
+        {
+          url: 'https://publit.com/community/frontend',
+          title: '프론트엔드 커뮤니티 추천',
+          visits: 70,
+        },
+      ],
+    },
+  ];
 
   // 임시 포스트 데이터 (인기 포스트 테스트용)
   const mockPosts = [
@@ -225,6 +418,24 @@ export default function MyProfilePage() {
               </GridItem>
             </Grid>
           </Box>
+
+          {/* 유입 경로 영역 */}
+          {/* <Box w="100%">
+            <Heading size="lg" mb={6} color="blue.600" fontWeight="medium">
+              유입 경로
+            </Heading>
+            <Grid templateColumns="repeat(2, 1fr)" gap={8} w="100%"> */}
+          {/* 프로필 유입 경로 */}
+          {/* <GridItem>
+                <TrafficSource title="프로필" data={profileTrafficData} />
+              </GridItem> */}
+
+          {/* 게시물 유입 경로 */}
+          {/* <GridItem>
+                <TrafficSource title="게시물" data={postTrafficData} />
+              </GridItem>
+            </Grid>
+          </Box> */}
 
           {/* 인기 포스트 목록 */}
           <Box w="100%">

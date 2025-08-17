@@ -1,52 +1,63 @@
-import React from 'react';
+'use client';
+
+import { useMemo, useState } from 'react';
+import {
+  Box,
+  Container,
+  HStack,
+  VStack,
+  Text,
+  ButtonGroup,
+  Button as CkButton,
+} from '@chakra-ui/react';
+import FilterBar from '@/components/notifications/FilterBar';
+import NotificationList from '@/components/notifications/NotificationList';
+import { NotificationsFilter, NotificationItem } from '@/components/notifications/types';
 
 export default function NotificationsPage() {
-  const notifications = [
-    {
-      id: 1,
-      type: 'comment',
-      message: '사용자가 귀하의 게시글에 댓글을 남겼습니다.',
-      time: '5분 전',
-      read: false,
-    },
-    {
-      id: 2,
-      type: 'like',
-      message: '사용자가 귀하의 게시글을 좋아합니다.',
-      time: '1시간 전',
-      read: true,
-    },
-    {
-      id: 3,
-      type: 'follow',
-      message: '새로운 사용자가 귀하를 팔로우했습니다.',
-      time: '2시간 전',
-      read: true,
-    },
-  ];
+  const [filter, setFilter] = useState<NotificationsFilter>('전체');
+  const [page, setPage] = useState(1);
+  const pageSize = 10;
+
+  // 더미 데이터 (40개)
+  const all: NotificationItem[] = useMemo(
+    () =>
+      Array.from({ length: 40 }).map((_, i) => ({
+        id: i + 1,
+        message: `알림 메시지 ${i + 1}`,
+        time: `${i + 1}분 전`,
+        read: i % 3 === 0 ? false : true,
+        official: i % 5 === 0,
+      })),
+    []
+  );
+
+  const filtered = useMemo(() => {
+    switch (filter) {
+      case '읽지 않음':
+        return all.filter((n) => !n.read);
+      case '퍼블릿 공식':
+        return all.filter((n) => n.official);
+      default:
+        return all;
+    }
+  }, [all, filter]);
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold text-gray-900">알림</h1>
-      </div>
+    <Container maxW="900px" py={8}>
+      <VStack align="stretch" gap={6}>
+        {/* 필터: 중앙 정렬 */}
+        <FilterBar
+          value={filter}
+          onChange={(f) => {
+            setFilter(f);
+            setPage(1);
+          }}
+        />
 
-      <div className="bg-white rounded-lg shadow">
-        {notifications.map((notification) => (
-          <div
-            key={notification.id}
-            className={`p-4 border-b last:border-b-0 ${!notification.read ? 'bg-blue-50' : ''}`}
-          >
-            <div className="flex items-start justify-between">
-              <div className="flex-1">
-                <p className="text-gray-900">{notification.message}</p>
-                <p className="text-sm text-gray-500 mt-1">{notification.time}</p>
-              </div>
-              {!notification.read && <div className="w-2 h-2 bg-blue-600 rounded-full ml-4"></div>}
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
+        {/* 알림 리스트 */}
+        <NotificationList items={filtered} page={page} pageSize={pageSize} onPageChange={setPage} />
+      </VStack>
+    </Container>
   );
 }

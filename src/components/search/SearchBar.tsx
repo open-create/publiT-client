@@ -22,7 +22,7 @@ export default function SearchBar({
   };
 
   return (
-    <HStack w="100%" bg="gray.200" borderRadius="full" px="1rem" py="0.75rem">
+    <HStack w="60%" mx="auto" bg="gray.200" borderRadius="full" px="0.75rem" py="0.5rem">
       <Input
         value={value}
         onChange={(e) => setValue(e.target.value)}
@@ -40,7 +40,7 @@ export default function SearchBar({
         rounded="full"
         _hover={{ bg: 'gray.300' }}
       >
-        <Icon as={SearchIcon} color="gray.600" boxSize={5} />
+        <Icon as={SearchIcon} color="gray.600" boxSize={4} />
       </Box>
     </HStack>
   );

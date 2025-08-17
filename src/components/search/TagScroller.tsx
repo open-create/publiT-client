@@ -19,7 +19,7 @@ export default function TagScroller({ tags, onSelect }: TagScrollerProps) {
   };
 
   return (
-    <HStack w="100%" align="center" gap={2}>
+    <HStack w="60%" mx="auto" align="center" gap={2}>
       <Box
         as="button"
         onClick={() => scrollBy(-200)}
@@ -28,7 +28,7 @@ export default function TagScroller({ tags, onSelect }: TagScrollerProps) {
         rounded="md"
         _hover={{ bg: 'gray.100' }}
       >
-        <Icon as={ChevronLeft} color="gray.500" boxSize={5} />
+        <Icon as={ChevronLeft} color="gray.500" boxSize={4} />
       </Box>
 
       <HStack
@@ -48,13 +48,13 @@ export default function TagScroller({ tags, onSelect }: TagScrollerProps) {
             key={t}
             as="button"
             onClick={() => onSelect?.(t)}
-            px="0.75rem"
-            py="0.375rem"
+            px="0.5rem"
+            py="0.25rem"
             bg="blue.100"
             color="blue.800"
             rounded="full"
           >
-            <Text fontSize="sm">{t}</Text>
+            <Text fontSize="xs">{t}</Text>
           </Box>
         ))}
       </HStack>
@@ -67,7 +67,7 @@ export default function TagScroller({ tags, onSelect }: TagScrollerProps) {
         rounded="md"
         _hover={{ bg: 'gray.100' }}
       >
-        <Icon as={ChevronRight} color="gray.500" boxSize={5} />
+        <Icon as={ChevronRight} color="gray.500" boxSize={4} />
       </Box>
     </HStack>
   );

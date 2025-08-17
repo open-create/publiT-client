@@ -71,6 +71,7 @@ export default function ContributionGrid({
         return `${currentYear}-12-31`;
       }
     })();
+
   // 날짜 -> count 맵
   const map = useMemo(() => {
     const m = new Map<string, number>();

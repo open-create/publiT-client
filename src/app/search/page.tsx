@@ -6,6 +6,8 @@ import SearchBar from '@/components/search/SearchBar';
 import TagScroller from '@/components/search/TagScroller';
 import RecentKeywords from '@/components/search/RecentKeywords';
 import SearchResultGrid, { SearchFilter } from '@/components/search/SearchResultGrid';
+import RecommendedCarousel from '@/components/search/RecommendedCarousel';
+import RealtimePopular from '@/components/search/RealtimePopular';
 
 export default function SearchPage() {
   const [recent, setRecent] = useState<string[]>(['김해원 작가', '방구석 재민이']);
@@ -24,6 +26,20 @@ export default function SearchPage() {
   const [page, setPage] = useState(1);
   const [filter, setFilter] = useState<SearchFilter>('해시태그');
   const [items, setItems] = useState(Array.from({ length: 40 }).map((_, i) => ({ id: i + 1 })));
+  const [recommended] = useState(
+    Array.from({ length: 16 }).map((_, i) => ({ id: `rec-${i + 1}` }))
+  );
+  const [popular] = useState(
+    Array.from({ length: 8 }).map((_, i) => ({
+      id: `pop-${i + 1}`,
+      title: '모기에 안 물리는 법',
+      excerpt: '삽지기 표시를 내서 가려움을 참는다',
+      author: '해원이오',
+      date: '2025.08.08',
+    }))
+  );
+  const [hasSearched, setHasSearched] = useState(false);
+  const [query, setQuery] = useState('');
 
   const handleSearch = (kw: string) => {
     setRecent((prev) => {
@@ -31,6 +47,8 @@ export default function SearchPage() {
       return next.slice(0, 10);
     });
     setPage(1);
+    setQuery(kw);
+    setHasSearched(true);
   };
 
   return (
@@ -50,14 +68,20 @@ export default function SearchPage() {
           onClear={() => setRecent([])}
         />
 
-        {/* 검색 결과 그리드 + 필터 + 페이지네이션 */}
-        <SearchResultGrid
-          items={items}
-          page={page}
-          onPageChange={setPage}
-          filter={filter}
-          onFilterChange={setFilter}
-        />
+        {hasSearched ? (
+          <SearchResultGrid
+            items={items}
+            page={page}
+            onPageChange={setPage}
+            filter={filter}
+            onFilterChange={setFilter}
+          />
+        ) : (
+          <>
+            <RecommendedCarousel items={recommended} />
+            <RealtimePopular items={popular} />
+          </>
+        )}
       </VStack>
     </Container>
   );

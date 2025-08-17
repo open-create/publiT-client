@@ -193,6 +193,7 @@ export default function Modal({
             maxW={maxW[size]}
             onClick={(e) => e.stopPropagation()}
             pointerEvents="auto"
+            overflow="visible"
             ref={contentRef}
           >
             {shouldShowHeader && (
@@ -244,7 +245,9 @@ export default function Modal({
                 )}
               </Flex>
             )}
-            <Box p={4}>{children}</Box>
+            <Box p={4} overflow="visible">
+              {children}
+            </Box>
             {footer && (
               <Box p={4} borderTop="1px solid" borderColor="gray.100">
                 {footer}

@@ -1,6 +1,7 @@
 'use client';
 
 import type { Editor } from '@tiptap/react';
+import { HStack, Box } from '@chakra-ui/react';
 import {
   Bold,
   Strikethrough,
@@ -115,7 +116,7 @@ export default function ToolBar({ editor }: ToolBarProps) {
   if (!editor) return null;
 
   return (
-    <div style={{ display: 'flex', gap: '8px', padding: '8px', border: '1px solid #ccc' }}>
+    <HStack w="100%" justify="center" py={2}>
       {TOOL_ITEMS.map(({ icon: Icon, action, activeMark, args, log }) => {
         // 현재 활성 상태
         const isActive = activeMark ? editor.isActive(activeMark, args) : false;
@@ -159,6 +160,6 @@ export default function ToolBar({ editor }: ToolBarProps) {
           </Button>
         );
       })}
-    </div>
+    </HStack>
   );
 }

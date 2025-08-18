@@ -13,6 +13,7 @@ interface PubbleHeaderProps {
   onPublish?: () => void;
   onSmartReview?: () => void;
   onQualityCheck?: () => void;
+  onOpenSettings?: () => void;
 }
 
 export default function PubbleHeader({
@@ -24,6 +25,7 @@ export default function PubbleHeader({
   onPublish,
   onSmartReview,
   onQualityCheck,
+  onOpenSettings,
 }: PubbleHeaderProps) {
   return (
     <Box w="100%" bg="blue.50" py={3} px={4}>
@@ -49,10 +51,30 @@ export default function PubbleHeader({
             {wordCount}단어
           </Text>
 
+          {/* 설정 버튼 (more / kebab) */}
+          <Button
+            variant="ghost"
+            size="sm"
+            p={1}
+            minW="auto"
+            h="auto"
+            bg="transparent"
+            _hover={{ bg: 'transparent' }}
+            onClick={onOpenSettings}
+            aria-label="설정"
+          >
+            <HStack gap={1.5}>
+              <Box w="5px" h="5px" bg="blue.500" borderRadius="full" />
+              <Box w="5px" h="5px" bg="blue.500" borderRadius="full" />
+              <Box w="5px" h="5px" bg="blue.500" borderRadius="full" />
+            </HStack>
+          </Button>
+
           {smartQualityCheck && (
             <Button
               variant="primary"
-              size="xs"
+              size="sm"
+              fontSize="s"
               bg="white"
               color="blue.500"
               _hover={{ color: 'gray.800' }}
@@ -64,7 +86,8 @@ export default function PubbleHeader({
           {!smartQualityCheck && (
             <Button
               variant="primary"
-              size="xs"
+              size="sm"
+              fontSize="s"
               bg="white"
               color="blue.500"
               _hover={{ color: 'gray.800' }}
@@ -75,7 +98,8 @@ export default function PubbleHeader({
           )}
           <Button
             variant="primary"
-            size="xs"
+            size="sm"
+            fontSize="s"
             bg="blue.500"
             color="white"
             _hover={{ bg: 'blue.600' }}
@@ -86,7 +110,8 @@ export default function PubbleHeader({
           {smartQualityCheck && (
             <Button
               variant="primary"
-              size="xs"
+              size="sm"
+              fontSize="s"
               bg="blue.500"
               color="white"
               _hover={{ bg: 'blue.600' }}

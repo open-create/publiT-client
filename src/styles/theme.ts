@@ -3,6 +3,11 @@ import { createSystem, defaultConfig, defineConfig } from '@chakra-ui/react';
 export const system = createSystem(
   defaultConfig,
   defineConfig({
+    globalCss: {
+      body: { color: { base: 'gray.800' }, bg: { base: 'white' }, fontFamily: { base: 'body' } },
+      a: { color: 'var(--colors-blue-600)', textDecoration: 'none' },
+      'a:hover': { color: 'var(--colors-blue-700)' },
+    },
     theme: {
       tokens: {
         /*────────────────────────  COLORS  ────────────────────────*/
@@ -56,6 +61,20 @@ export const system = createSystem(
           bold: { value: '800' },
         },
       },
+      // Link 기본 variant 정의 (전역 a 스타일 대체용)
+      semanticTokens: {},
+      keyframes: {},
+      recipes: {},
+      slotRecipes: {},
+      // components: {
+      //   Link: {
+      //     baseStyle: {
+      //       color: 'blue.600',
+      //       _hover: { color: 'blue.700' },
+      //       textDecoration: 'none',
+      //     },
+      //   },
+      // },
     },
   })
 );

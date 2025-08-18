@@ -26,7 +26,7 @@ export default function PubbleHeader({
   onQualityCheck,
 }: PubbleHeaderProps) {
   return (
-    <Box w="100%" bg="blue.50" py={2} px={4}>
+    <Box w="100%" bg="blue.50" py={3} px={4}>
       <HStack justify="space-between" align="center">
         <Button
           variant="ghost"

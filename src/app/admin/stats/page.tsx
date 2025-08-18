@@ -1,53 +1,67 @@
+'use client';
+
 import React from 'react';
+import { VStack, HStack, Heading, Grid, GridItem, Box, Text } from '@chakra-ui/react';
 
 export default function StatsPage() {
+  const stats = [
+    { title: '총 사용자', count: '1,234', color: 'blue.600', change: '+12% 이번 달' },
+    { title: '총 게시글', count: '5,678', color: 'green.600', change: '+8% 이번 주' },
+    { title: '활성 사용자', count: '892', color: 'yellow.600', change: '오늘' },
+    { title: '신고 건수', count: '23', color: 'red.600', change: '이번 주' },
+  ];
+
+  const charts = [{ title: '사용자 증가 추이' }, { title: '게시글 분포' }];
+
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold text-gray-900">통계 대시보드</h1>
-      </div>
+    <VStack align="stretch" gap={6}>
+      <HStack justify="space-between" align="center">
+        <Heading size="2xl" color="gray.900">
+          통계 대시보드
+        </Heading>
+      </HStack>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div className="bg-white p-6 rounded-lg shadow">
-          <h3 className="text-lg font-semibold text-gray-900">총 사용자</h3>
-          <p className="text-3xl font-bold text-blue-600">1,234</p>
-          <p className="text-sm text-gray-500">+12% 이번 달</p>
-        </div>
+      <Grid templateColumns={{ base: '1fr', md: 'repeat(2, 1fr)', lg: 'repeat(4, 1fr)' }} gap={6}>
+        {stats.map((stat) => (
+          <GridItem key={stat.title}>
+            <Box bg="white" p={6} borderRadius="lg" shadow="md">
+              <VStack align="start" gap={1}>
+                <Text fontSize="lg" fontWeight="semibold" color="gray.900">
+                  {stat.title}
+                </Text>
+                <Text fontSize="3xl" fontWeight="bold" color={stat.color}>
+                  {stat.count}
+                </Text>
+                <Text fontSize="sm" color="gray.500">
+                  {stat.change}
+                </Text>
+              </VStack>
+            </Box>
+          </GridItem>
+        ))}
+      </Grid>
 
-        <div className="bg-white p-6 rounded-lg shadow">
-          <h3 className="text-lg font-semibold text-gray-900">총 게시글</h3>
-          <p className="text-3xl font-bold text-green-600">5,678</p>
-          <p className="text-sm text-gray-500">+8% 이번 주</p>
-        </div>
-
-        <div className="bg-white p-6 rounded-lg shadow">
-          <h3 className="text-lg font-semibold text-gray-900">활성 사용자</h3>
-          <p className="text-3xl font-bold text-yellow-600">892</p>
-          <p className="text-sm text-gray-500">오늘</p>
-        </div>
-
-        <div className="bg-white p-6 rounded-lg shadow">
-          <h3 className="text-lg font-semibold text-gray-900">신고 건수</h3>
-          <p className="text-3xl font-bold text-red-600">23</p>
-          <p className="text-sm text-gray-500">이번 주</p>
-        </div>
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-white p-6 rounded-lg shadow">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">사용자 증가 추이</h3>
-          <div className="h-64 bg-gray-100 rounded flex items-center justify-center">
-            <p className="text-gray-500">차트 컴포넌트</p>
-          </div>
-        </div>
-
-        <div className="bg-white p-6 rounded-lg shadow">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">게시글 분포</h3>
-          <div className="h-64 bg-gray-100 rounded flex items-center justify-center">
-            <p className="text-gray-500">차트 컴포넌트</p>
-          </div>
-        </div>
-      </div>
-    </div>
+      <Grid templateColumns={{ base: '1fr', lg: 'repeat(2, 1fr)' }} gap={6}>
+        {charts.map((chart) => (
+          <GridItem key={chart.title}>
+            <Box bg="white" p={6} borderRadius="lg" shadow="md">
+              <Text fontSize="lg" fontWeight="semibold" color="gray.900" mb={4}>
+                {chart.title}
+              </Text>
+              <Box
+                h="16rem"
+                bg="gray.100"
+                borderRadius="md"
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+              >
+                <Text color="gray.500">차트 컴포넌트</Text>
+              </Box>
+            </Box>
+          </GridItem>
+        ))}
+      </Grid>
+    </VStack>
   );
 }

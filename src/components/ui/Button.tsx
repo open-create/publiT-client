@@ -7,15 +7,7 @@ import React from 'react';
 type UiVariant = 'primary' | 'secondary' | 'danger' | 'ghost' | 'outline';
 type UiSize = 'xs' | 'sm' | 'md' | 'lg';
 
-/**  우리가 제어할 prop + Chakra 기본 prop 나머지 */
-interface ButtonProps
-  extends Omit<ChakraButtonProps, 'variant' | 'size' | 'colorPalette' | 'css' | 'accentColor'> {
-  variant?: UiVariant;
-  size?: UiSize;
-  fullWidth?: boolean;
-  colorPalette?: string;
-  fontSize?: string | number;
-}
+import { ButtonProps } from './types';
 
 /*───────────────── 매핑 테이블 ─────────────────*/
 type Palette = ChakraButtonProps['colorPalette']; // "blue" | "gray" | "red" | …

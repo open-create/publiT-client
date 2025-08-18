@@ -5,25 +5,9 @@ import { Box, Flex, Portal, Text, Icon, HStack, BoxProps } from '@chakra-ui/reac
 import Button from '@/components/ui/Button';
 import { X, ChevronRight } from 'lucide-react';
 
-type ModalSize = 'sm' | 'md' | 'lg' | 'xl' | 'full';
+type ModalSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
 
-interface ModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  title?: string;
-  children: React.ReactNode;
-  size?: ModalSize;
-  footer?: React.ReactNode;
-  closeOnOverlayClick?: boolean;
-  hideCloseButton?: boolean;
-  showCloseButton?: boolean; // header X 버튼 노출 여부
-  showTitle?: boolean; // 제목 노출 여부
-  showTitleAction?: boolean; // 제목 옆 화살표 버튼 노출 여부
-  onTitleAction?: () => void; // 화살표 버튼 클릭 핸들러
-  withOverlay?: boolean; // false면 배경/포털 없이 인라인 드롭다운처럼 렌더
-  containerProps?: Partial<Omit<BoxProps, 'css' | 'accentColor'>>; // v3 타입 충돌 방지
-  closeOnOutsideClick?: boolean; // 배경/바깥 클릭 시 무조건 닫기 (기본 true)
-}
+import { ModalProps } from './types';
 
 export default function Modal({
   isOpen,
@@ -76,6 +60,7 @@ export default function Modal({
   if (!isOpen) return null;
 
   const maxW: Record<ModalSize, string> = {
+    xs: '20rem',
     sm: '24rem',
     md: '32rem',
     lg: '42rem',

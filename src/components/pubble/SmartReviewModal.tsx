@@ -5,18 +5,7 @@ import { Box, VStack, HStack, Text, Progress, Badge } from '@chakra-ui/react';
 import Modal from '@/components/ui/Modal';
 import Button from '@/components/ui/Button';
 
-interface EvaluationItem {
-  category: string;
-  score: number;
-  comment: string;
-  highlightedText?: string;
-}
-
-interface SmartReviewModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  onApplyReview?: (evaluations: EvaluationItem[]) => void;
-}
+import { SmartReviewModalProps, EvaluationItem } from './types';
 
 export default function SmartReviewModal({
   isOpen,

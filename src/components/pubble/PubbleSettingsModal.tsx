@@ -10,17 +10,7 @@ import { Lock } from 'lucide-react';
 type PublishType = 'scroll' | 'ebook';
 type Visibility = 'public' | 'private';
 
-interface PubbleSettingsModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  onPublish?: (settings: {
-    type: PublishType;
-    tags: string[];
-    visibility: Visibility;
-    password?: string;
-    adultOnly: boolean;
-  }) => void;
-}
+import { PubbleSettingsModalProps } from './types';
 
 export default function PubbleSettingsModal({
   isOpen,

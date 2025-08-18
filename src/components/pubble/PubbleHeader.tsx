@@ -4,17 +4,7 @@ import { Box, HStack, Text, Icon } from '@chakra-ui/react';
 import Button from '@/components/ui/Button';
 import { ChevronLeft } from 'lucide-react';
 
-interface PubbleHeaderProps {
-  charCount?: number;
-  wordCount?: number;
-  smartQualityCheck?: boolean;
-  onBack?: () => void;
-  onTempSave?: () => void;
-  onPublish?: () => void;
-  onSmartReview?: () => void;
-  onQualityCheck?: () => void;
-  onOpenSettings?: () => void;
-}
+import { PubbleHeaderProps } from './types';
 
 export default function PubbleHeader({
   wordCount = 0,

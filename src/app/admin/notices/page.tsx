@@ -1,6 +1,10 @@
+'use client';
+
 import React from 'react';
 import Link from 'next/link';
+import { VStack, HStack, Heading } from '@chakra-ui/react';
 import DataTable from '@/components/admin/DataTable';
+import Button from '@/components/ui/Button';
 
 export default function NoticesPage() {
   const notices = [
@@ -9,16 +13,15 @@ export default function NoticesPage() {
   ];
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold text-gray-900">공지사항 관리</h1>
-        <Link
-          href="/admin/notices/create"
-          className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
-        >
+    <VStack align="stretch" gap={6}>
+      <HStack justify="space-between" align="center">
+        <Heading size="2xl" color="gray.900">
+          공지사항 관리
+        </Heading>
+        <Button as={Link} href="/admin/notices/create" variant="primary">
           새 공지사항 작성
-        </Link>
-      </div>
+        </Button>
+      </HStack>
 
       <DataTable
         data={notices}
@@ -33,6 +36,6 @@ export default function NoticesPage() {
           { label: '삭제', action: 'delete' },
         ]}
       />
-    </div>
+    </VStack>
   );
 }

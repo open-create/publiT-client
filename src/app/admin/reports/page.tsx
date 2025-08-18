@@ -1,4 +1,7 @@
+'use client';
+
 import React from 'react';
+import { VStack, HStack, Heading } from '@chakra-ui/react';
 import DataTable from '@/components/admin/DataTable';
 
 export default function ReportsPage() {
@@ -8,10 +11,12 @@ export default function ReportsPage() {
   ];
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold text-gray-900">신고 관리</h1>
-      </div>
+    <VStack align="stretch" gap={6}>
+      <HStack justify="space-between" align="center">
+        <Heading size="2xl" color="gray.900">
+          신고 관리
+        </Heading>
+      </HStack>
 
       <DataTable
         data={reports}
@@ -23,6 +28,6 @@ export default function ReportsPage() {
         ]}
         actions={[{ label: '상세보기', href: (id) => `/admin/reports/${id}` }]}
       />
-    </div>
+    </VStack>
   );
 }

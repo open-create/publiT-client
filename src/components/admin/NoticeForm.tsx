@@ -1,4 +1,9 @@
+'use client';
+
 import React, { useState } from 'react';
+import { VStack, Box, Input, Textarea, HStack, Text } from '@chakra-ui/react';
+import Button from '@/components/ui/Button';
+import { Select as UiSelect } from '@/components/ui';
 
 interface NoticeFormProps {
   noticeId?: string;
@@ -15,58 +20,67 @@ export default function NoticeForm({ noticeId }: NoticeFormProps) {
     console.log({ title, content, status });
   };
 
+  const statusOptions = [
+    { label: '임시저장', value: 'draft' },
+    { label: '발행', value: 'published' },
+  ];
+
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
-      <div>
-        <label className="block text-sm font-medium text-gray-700">제목</label>
-        <input
-          type="text"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          className="mt-1 block w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          placeholder="공지사항 제목을 입력하세요"
-          required
-        />
-      </div>
+    <form onSubmit={handleSubmit}>
+      <VStack align="stretch" gap={6}>
+        <Box>
+          <Text fontSize="sm" fontWeight="medium" color="gray.700" mb={2}>
+            제목 *
+          </Text>
+          <Input
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder="공지사항 제목을 입력하세요"
+            size="lg"
+            borderColor="gray.300"
+            _focus={{
+              borderColor: 'blue.500',
+              boxShadow: '0 0 0 1px var(--chakra-colors-blue-500)',
+            }}
+            required
+          />
+        </Box>
 
-      <div>
-        <label className="block text-sm font-medium text-gray-700">내용</label>
-        <textarea
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
-          rows={10}
-          className="mt-1 block w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          placeholder="공지사항 내용을 입력하세요"
-          required
-        />
-      </div>
+        <Box>
+          <Text fontSize="sm" fontWeight="medium" color="gray.700" mb={2}>
+            내용 *
+          </Text>
+          <Textarea
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+            rows={10}
+            placeholder="공지사항 내용을 입력하세요"
+            size="lg"
+            borderColor="gray.300"
+            _focus={{
+              borderColor: 'blue.500',
+              boxShadow: '0 0 0 1px var(--chakra-colors-blue-500)',
+            }}
+            required
+          />
+        </Box>
 
-      <div>
-        <label className="block text-sm font-medium text-gray-700">상태</label>
-        <select
-          value={status}
-          onChange={(e) => setStatus(e.target.value)}
-          className="mt-1 block w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-        >
-          <option value="draft">임시저장</option>
-          <option value="published">발행</option>
-        </select>
-      </div>
+        <Box>
+          <Text fontSize="sm" fontWeight="medium" color="gray.700" mb={2}>
+            상태
+          </Text>
+          <UiSelect options={statusOptions} value={status} onChange={setStatus} width="100%" />
+        </Box>
 
-      <div className="flex justify-end space-x-4">
-        <button
-          type="button"
-          className="bg-gray-600 text-white px-6 py-2 rounded-lg hover:bg-gray-700"
-        >
-          취소
-        </button>
-        <button
-          type="submit"
-          className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700"
-        >
-          {noticeId ? '수정' : '등록'}
-        </button>
-      </div>
+        <HStack justify="flex-end" gap={4}>
+          <Button variant="secondary" type="button">
+            취소
+          </Button>
+          <Button variant="primary" type="submit">
+            {noticeId ? '수정' : '등록'}
+          </Button>
+        </HStack>
+      </VStack>
     </form>
   );
 }

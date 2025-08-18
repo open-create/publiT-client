@@ -21,6 +21,8 @@ import Underline from '@tiptap/extension-underline';
 // 컴포넌트
 import ToolBar from './ToolBar';
 import PubbleHeader from './PubbleHeader';
+import PubbleSettingsModal from './PubbleSettingsModal';
+import SmartReviewModal from './SmartReviewModal';
 
 export default function Editor() {
   const [charCount, setCharCount] = useState(0);
@@ -28,6 +30,8 @@ export default function Editor() {
   const [smartQualityCheck, setSmartQualityCheck] = useState(false); // 스마트 품질 검사 실행 여부
   const [title, setTitle] = useState('');
   const [subtitle, setSubtitle] = useState('');
+  const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
+  const [isSmartReviewModalOpen, setIsSmartReviewModalOpen] = useState(false);
 
   // 1) useEditor로 에디터 인스턴스 생성
   const editor = useEditor({
@@ -71,11 +75,14 @@ export default function Editor() {
           smartQualityCheck={smartQualityCheck}
           onBack={() => history.back()}
           onTempSave={() => console.log('임시 저장')}
-          onSmartReview={() => console.log('스마트 리뷰')}
+          onSmartReview={() => setIsSmartReviewModalOpen(true)}
           onQualityCheck={() => {
             console.log('스마트 품질 검사');
             setSmartQualityCheck(true);
+            setIsSmartReviewModalOpen(true);
           }}
+          onPublish={() => setIsSettingsModalOpen(true)}
+          onOpenSettings={() => setIsSettingsModalOpen(true)}
         />
         {/* 2) 툴바에 editor 전달 (박스에 담아 구분) */}
         <Box border="1px solid" borderColor="gray.200" rounded="md" bg="white" m={0}>
@@ -118,6 +125,28 @@ export default function Editor() {
           </Box>
         </Container>
       </VStack>
+
+      {/* 발행 설정 모달 */}
+      <PubbleSettingsModal
+        isOpen={isSettingsModalOpen}
+        onClose={() => setIsSettingsModalOpen(false)}
+        onPublish={(settings) => {
+          console.log('발행 설정:', settings);
+          // TODO: 실제 발행 로직 구현
+          setIsSettingsModalOpen(false);
+        }}
+      />
+
+      {/* 스마트 리뷰 모달 */}
+      <SmartReviewModal
+        isOpen={isSmartReviewModalOpen}
+        onClose={() => setIsSmartReviewModalOpen(false)}
+        onApplyReview={(evaluations) => {
+          console.log('스마트 리뷰 결과:', evaluations);
+          // TODO: 리뷰 결과를 에디터에 적용하는 로직 구현
+          setIsSmartReviewModalOpen(false);
+        }}
+      />
     </Box>
   );
 }

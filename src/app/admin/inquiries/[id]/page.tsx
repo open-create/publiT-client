@@ -1,4 +1,8 @@
-import React from 'react';
+'use client';
+
+import React, { useState } from 'react';
+import { VStack, HStack, Heading, Box, Text, Textarea } from '@chakra-ui/react';
+import Button from '@/components/ui/Button';
 
 interface InquiryDetailPageProps {
   params: {
@@ -8,38 +12,64 @@ interface InquiryDetailPageProps {
 
 export default function InquiryDetailPage({ params }: InquiryDetailPageProps) {
   const { id } = params;
+  const [answer, setAnswer] = useState('');
+
+  const handleSubmitAnswer = () => {
+    console.log('Submit answer:', answer);
+    // 답변 등록 로직
+  };
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold text-gray-900">문의 상세</h1>
-      </div>
+    <VStack align="stretch" gap={6}>
+      <HStack justify="space-between" align="center">
+        <Heading size="2xl" color="gray.900">
+          문의 상세
+        </Heading>
+      </HStack>
 
-      <div className="bg-white p-6 rounded-lg shadow">
-        <h2 className="text-xl font-semibold mb-4">문의 내용</h2>
-        <div className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700">제목</label>
-            <p className="mt-1 text-gray-900">로그인 문제 문의</p>
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700">내용</label>
-            <p className="mt-1 text-gray-900">로그인이 안 되는 문제가 있습니다.</p>
-          </div>
-        </div>
-      </div>
+      <Box bg="white" p={6} borderRadius="lg" shadow="md">
+        <Heading size="lg" mb={4}>
+          문의 내용
+        </Heading>
+        <VStack align="stretch" gap={4}>
+          <Box>
+            <Text fontSize="sm" fontWeight="medium" color="gray.700" mb={1}>
+              제목
+            </Text>
+            <Text color="gray.900">로그인 문제 문의</Text>
+          </Box>
+          <Box>
+            <Text fontSize="sm" fontWeight="medium" color="gray.700" mb={1}>
+              내용
+            </Text>
+            <Text color="gray.900">로그인이 안 되는 문제가 있습니다.</Text>
+          </Box>
+        </VStack>
+      </Box>
 
-      <div className="bg-white p-6 rounded-lg shadow">
-        <h2 className="text-xl font-semibold mb-4">답변</h2>
-        <textarea
-          className="w-full p-3 border border-gray-300 rounded-lg"
-          rows={5}
-          placeholder="답변을 입력하세요..."
-        />
-        <button className="mt-4 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
-          답변 등록
-        </button>
-      </div>
-    </div>
+      <Box bg="white" p={6} borderRadius="lg" shadow="md">
+        <Heading size="lg" mb={4}>
+          답변
+        </Heading>
+        <VStack align="stretch" gap={4}>
+          <Textarea
+            value={answer}
+            onChange={(e) => setAnswer(e.target.value)}
+            rows={5}
+            placeholder="답변을 입력하세요..."
+            borderColor="gray.300"
+            _focus={{
+              borderColor: 'blue.500',
+              boxShadow: '0 0 0 1px var(--chakra-colors-blue-500)',
+            }}
+          />
+          <HStack justify="flex-start">
+            <Button variant="primary" onClick={handleSubmitAnswer}>
+              답변 등록
+            </Button>
+          </HStack>
+        </VStack>
+      </Box>
+    </VStack>
   );
 }

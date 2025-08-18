@@ -5,11 +5,7 @@ import { VStack, HStack, Heading, Box, Text, Textarea } from '@chakra-ui/react';
 import Button from '@/components/ui/Button';
 import { Select as UiSelect } from '@/components/ui';
 
-interface ReportDetailPageProps {
-  params: {
-    id: string;
-  };
-}
+import { ReportDetailPageProps } from '../../types';
 
 export default function ReportDetailPage({ params }: ReportDetailPageProps) {
   const { id } = params;

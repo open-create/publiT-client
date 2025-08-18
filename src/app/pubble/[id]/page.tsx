@@ -16,11 +16,7 @@ import { ChevronLeft } from 'lucide-react';
 import { PostAuthor, PostBody, CommentsSection, PostNavigation } from '@/components/pubble';
 import RecommendedCarousel from '@/components/search/RecommendedCarousel';
 
-interface PostDetailPageProps {
-  params: Promise<{
-    id: string;
-  }>;
-}
+import { PostDetailPageProps } from '../types';
 
 export default function PostDetailPage({ params }: PostDetailPageProps) {
   const { id } = use(params);

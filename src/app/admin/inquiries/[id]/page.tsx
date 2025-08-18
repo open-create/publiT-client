@@ -4,11 +4,7 @@ import React, { useState } from 'react';
 import { VStack, HStack, Heading, Box, Text, Textarea } from '@chakra-ui/react';
 import Button from '@/components/ui/Button';
 
-interface InquiryDetailPageProps {
-  params: {
-    id: string;
-  };
-}
+import { InquiryDetailPageProps } from '../../types';
 
 export default function InquiryDetailPage({ params }: InquiryDetailPageProps) {
   const { id } = params;

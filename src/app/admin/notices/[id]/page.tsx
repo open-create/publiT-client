@@ -4,11 +4,7 @@ import React from 'react';
 import { VStack, HStack, Heading } from '@chakra-ui/react';
 import NoticeForm from '@/components/admin/NoticeForm';
 
-interface NoticeDetailPageProps {
-  params: {
-    id: string;
-  };
-}
+import { NoticeDetailPageProps } from '../../types';
 
 export default function NoticeDetailPage({ params }: NoticeDetailPageProps) {
   const { id } = params;

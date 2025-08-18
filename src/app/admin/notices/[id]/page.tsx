@@ -1,4 +1,7 @@
+'use client';
+
 import React from 'react';
+import { VStack, HStack, Heading } from '@chakra-ui/react';
 import NoticeForm from '@/components/admin/NoticeForm';
 
 interface NoticeDetailPageProps {
@@ -11,12 +14,14 @@ export default function NoticeDetailPage({ params }: NoticeDetailPageProps) {
   const { id } = params;
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold text-gray-900">공지사항 수정</h1>
-      </div>
+    <VStack align="stretch" gap={6}>
+      <HStack justify="space-between" align="center">
+        <Heading size="2xl" color="gray.900">
+          공지사항 수정
+        </Heading>
+      </HStack>
 
       <NoticeForm noticeId={id} />
-    </div>
+    </VStack>
   );
 }

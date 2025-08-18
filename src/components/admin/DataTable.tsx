@@ -1,5 +1,9 @@
+'use client';
+
 import React from 'react';
 import Link from 'next/link';
+import { Box, HStack, Text, Table } from '@chakra-ui/react';
+import Button from '@/components/ui/Button';
 
 interface Column {
   key: string;
@@ -20,47 +24,39 @@ interface DataTableProps {
 
 export default function DataTable({ data, columns, actions }: DataTableProps) {
   return (
-    <div className="bg-white shadow rounded-lg overflow-hidden">
-      <table className="min-w-full divide-y divide-gray-200">
-        <thead className="bg-gray-50">
-          <tr>
+    <Box bg="white" shadow="md" borderRadius="lg" overflow="hidden">
+      <Table.Root size="sm" variant="outline">
+        <Table.Header>
+          <Table.Row>
             {columns.map((column) => (
-              <th
-                key={column.key}
-                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-              >
-                {column.label}
-              </th>
+              <Table.ColumnHeader key={column.key}>{column.label}</Table.ColumnHeader>
             ))}
-            {actions && actions.length > 0 && (
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                작업
-              </th>
-            )}
-          </tr>
-        </thead>
-        <tbody className="bg-white divide-y divide-gray-200">
+            {actions && actions.length > 0 && <Table.ColumnHeader>작업</Table.ColumnHeader>}
+          </Table.Row>
+        </Table.Header>
+        <Table.Body>
           {data.map((row, index) => (
-            <tr key={index} className="hover:bg-gray-50">
+            <Table.Row key={index}>
               {columns.map((column) => (
-                <td key={column.key} className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                  {row[column.key]}
-                </td>
+                <Table.Cell key={column.key}>{row[column.key]}</Table.Cell>
               ))}
               {actions && actions.length > 0 && (
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                  <div className="flex space-x-2">
+                <Table.Cell>
+                  <HStack gap={2}>
                     {actions.map((action, actionIndex) => (
-                      <div key={actionIndex}>
+                      <Box key={actionIndex}>
                         {action.href ? (
-                          <Link
-                            href={action.href(row.id)}
-                            className="text-blue-600 hover:text-blue-900"
-                          >
-                            {action.label}
+                          <Link href={action.href(row.id)}>
+                            <Text color="blue.600" _hover={{ color: 'blue.900' }} cursor="pointer">
+                              {action.label}
+                            </Text>
                           </Link>
                         ) : (
-                          <button
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            color="red.600"
+                            _hover={{ color: 'red.900' }}
                             onClick={() => {
                               if (action.action === 'delete') {
                                 if (confirm('정말 삭제하시겠습니까?')) {
@@ -69,20 +65,19 @@ export default function DataTable({ data, columns, actions }: DataTableProps) {
                                 }
                               }
                             }}
-                            className="text-red-600 hover:text-red-900"
                           >
                             {action.label}
-                          </button>
+                          </Button>
                         )}
-                      </div>
+                      </Box>
                     ))}
-                  </div>
-                </td>
+                  </HStack>
+                </Table.Cell>
               )}
-            </tr>
+            </Table.Row>
           ))}
-        </tbody>
-      </table>
-    </div>
+        </Table.Body>
+      </Table.Root>
+    </Box>
   );
 }

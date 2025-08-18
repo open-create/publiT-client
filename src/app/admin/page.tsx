@@ -1,46 +1,46 @@
+'use client';
+
 import React from 'react';
 import Link from 'next/link';
+import { VStack, HStack, Heading, Grid, GridItem, Box, Text } from '@chakra-ui/react';
 
 export default function AdminDashboard() {
+  const stats = [
+    { title: '공지사항', count: '12', color: 'blue.600', href: '/admin/notices' },
+    { title: '문의', count: '8', color: 'yellow.600', href: '/admin/inquiries' },
+    { title: '신고', count: '3', color: 'red.600', href: '/admin/reports' },
+    { title: '통계', count: '1.2K', color: 'green.600', href: '/admin/stats' },
+  ];
+
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold text-gray-900">관리자 대시보드</h1>
-      </div>
+    <VStack align="stretch" gap={6}>
+      <HStack justify="space-between" align="center">
+        <Heading size="2xl" color="gray.900">
+          관리자 대시보드
+        </Heading>
+      </HStack>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div className="bg-white p-6 rounded-lg shadow">
-          <h3 className="text-lg font-semibold text-gray-900">공지사항</h3>
-          <p className="text-3xl font-bold text-blue-600">12</p>
-          <Link href="/admin/notices" className="text-blue-500 hover:text-blue-700">
-            관리하기 →
-          </Link>
-        </div>
-
-        <div className="bg-white p-6 rounded-lg shadow">
-          <h3 className="text-lg font-semibold text-gray-900">문의</h3>
-          <p className="text-3xl font-bold text-yellow-600">8</p>
-          <Link href="/admin/inquiries" className="text-blue-500 hover:text-blue-700">
-            관리하기 →
-          </Link>
-        </div>
-
-        <div className="bg-white p-6 rounded-lg shadow">
-          <h3 className="text-lg font-semibold text-gray-900">신고</h3>
-          <p className="text-3xl font-bold text-red-600">3</p>
-          <Link href="/admin/reports" className="text-blue-500 hover:text-blue-700">
-            관리하기 →
-          </Link>
-        </div>
-
-        <div className="bg-white p-6 rounded-lg shadow">
-          <h3 className="text-lg font-semibold text-gray-900">통계</h3>
-          <p className="text-3xl font-bold text-green-600">1.2K</p>
-          <Link href="/admin/stats" className="text-blue-500 hover:text-blue-700">
-            보기 →
-          </Link>
-        </div>
-      </div>
-    </div>
+      <Grid templateColumns={{ base: '1fr', md: 'repeat(2, 1fr)', lg: 'repeat(4, 1fr)' }} gap={6}>
+        {stats.map((stat) => (
+          <GridItem key={stat.title}>
+            <Box bg="white" p={6} borderRadius="lg" shadow="md">
+              <VStack align="start" gap={2}>
+                <Text fontSize="lg" fontWeight="semibold" color="gray.900">
+                  {stat.title}
+                </Text>
+                <Text fontSize="3xl" fontWeight="bold" color={stat.color}>
+                  {stat.count}
+                </Text>
+                <Link href={stat.href}>
+                  <Text color="blue.500" _hover={{ color: 'blue.700' }} cursor="pointer">
+                    {stat.title === '통계' ? '보기' : '관리하기'} →
+                  </Text>
+                </Link>
+              </VStack>
+            </Box>
+          </GridItem>
+        ))}
+      </Grid>
+    </VStack>
   );
 }

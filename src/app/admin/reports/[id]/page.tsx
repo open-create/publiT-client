@@ -1,4 +1,9 @@
-import React from 'react';
+'use client';
+
+import React, { useState } from 'react';
+import { VStack, HStack, Heading, Box, Text, Textarea } from '@chakra-ui/react';
+import Button from '@/components/ui/Button';
+import { Select as UiSelect } from '@/components/ui';
 
 interface ReportDetailPageProps {
   params: {
@@ -8,52 +13,81 @@ interface ReportDetailPageProps {
 
 export default function ReportDetailPage({ params }: ReportDetailPageProps) {
   const { id } = params;
+  const [status, setStatus] = useState('');
+  const [processingNote, setProcessingNote] = useState('');
+
+  const statusOptions = [
+    { label: '처리 상태 선택', value: '' },
+    { label: '검토 중', value: 'pending' },
+    { label: '처리 완료', value: 'resolved' },
+    { label: '기각', value: 'dismissed' },
+  ];
+
+  const handleProcess = () => {
+    console.log('Process report:', { status, processingNote });
+    // 처리 로직
+  };
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold text-gray-900">신고 상세</h1>
-      </div>
+    <VStack align="stretch" gap={6}>
+      <HStack justify="space-between" align="center">
+        <Heading size="2xl" color="gray.900">
+          신고 상세
+        </Heading>
+      </HStack>
 
-      <div className="bg-white p-6 rounded-lg shadow">
-        <h2 className="text-xl font-semibold mb-4">신고 내용</h2>
-        <div className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700">신고 유형</label>
-            <p className="mt-1 text-gray-900">부적절한 게시글</p>
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700">신고 사유</label>
-            <p className="mt-1 text-gray-900">욕설 및 비방 내용이 포함되어 있습니다.</p>
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700">신고된 게시글</label>
-            <div className="mt-1 p-3 bg-gray-50 rounded border">
-              <p className="text-gray-900">신고된 게시글 내용...</p>
-            </div>
-          </div>
-        </div>
-      </div>
+      <Box bg="white" p={6} borderRadius="lg" shadow="md">
+        <Heading size="lg" mb={4}>
+          신고 내용
+        </Heading>
+        <VStack align="stretch" gap={4}>
+          <Box>
+            <Text fontSize="sm" fontWeight="medium" color="gray.700" mb={1}>
+              신고 유형
+            </Text>
+            <Text color="gray.900">부적절한 게시글</Text>
+          </Box>
+          <Box>
+            <Text fontSize="sm" fontWeight="medium" color="gray.700" mb={1}>
+              신고 사유
+            </Text>
+            <Text color="gray.900">욕설 및 비방 내용이 포함되어 있습니다.</Text>
+          </Box>
+          <Box>
+            <Text fontSize="sm" fontWeight="medium" color="gray.700" mb={1}>
+              신고된 게시글
+            </Text>
+            <Box p={3} bg="gray.50" borderRadius="md" border="1px solid" borderColor="gray.200">
+              <Text color="gray.900">신고된 게시글 내용...</Text>
+            </Box>
+          </Box>
+        </VStack>
+      </Box>
 
-      <div className="bg-white p-6 rounded-lg shadow">
-        <h2 className="text-xl font-semibold mb-4">처리</h2>
-        <div className="space-y-4">
-          <select className="w-full p-3 border border-gray-300 rounded-lg">
-            <option value="">처리 상태 선택</option>
-            <option value="pending">검토 중</option>
-            <option value="resolved">처리 완료</option>
-            <option value="dismissed">기각</option>
-          </select>
-          <textarea
-            className="w-full p-3 border border-gray-300 rounded-lg"
+      <Box bg="white" p={6} borderRadius="lg" shadow="md">
+        <Heading size="lg" mb={4}>
+          처리
+        </Heading>
+        <VStack align="stretch" gap={4}>
+          <UiSelect options={statusOptions} value={status} onChange={setStatus} width="100%" />
+          <Textarea
+            value={processingNote}
+            onChange={(e) => setProcessingNote(e.target.value)}
             rows={3}
             placeholder="처리 내용을 입력하세요..."
+            borderColor="gray.300"
+            _focus={{
+              borderColor: 'blue.500',
+              boxShadow: '0 0 0 1px var(--chakra-colors-blue-500)',
+            }}
           />
-          <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
-            처리 완료
-          </button>
-        </div>
-      </div>
-    </div>
+          <HStack justify="flex-start">
+            <Button variant="primary" onClick={handleProcess}>
+              처리 완료
+            </Button>
+          </HStack>
+        </VStack>
+      </Box>
+    </VStack>
   );
 }

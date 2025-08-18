@@ -3,9 +3,5 @@ import { VStack } from '@chakra-ui/react';
 import Editor from '@/components/pubble/Editor';
 
 export default function PublitPage() {
-  return (
-    <VStack align="stretch" gap={6}>
-      <Editor />
-    </VStack>
-  );
+  return <Editor />;
 }

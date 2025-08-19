@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Container, VStack, Heading, Text } from '@chakra-ui/react';
 import SearchBar from '@/components/search/SearchBar';
 import SearchResultGrid, { SearchFilter } from '@/components/search/SearchResultGrid';

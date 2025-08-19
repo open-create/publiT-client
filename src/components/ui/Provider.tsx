@@ -5,7 +5,12 @@ import { ThemeProvider } from 'next-themes';
 import { system } from '@/styles/theme';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { queryClient } from '@/lib/queryClient';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+
+// 개발 환경에서만 ReactQueryDevtools import
+const ReactQueryDevtools =
+  process.env.NODE_ENV === 'development'
+    ? require('@tanstack/react-query-devtools').ReactQueryDevtools
+    : null;
 
 export default function Provider(props: { children: React.ReactNode }) {
   return (
@@ -15,7 +20,7 @@ export default function Provider(props: { children: React.ReactNode }) {
           {props.children}
         </ThemeProvider>
       </ChakraProvider>
-      <ReactQueryDevtools initialIsOpen={false} />
+      {ReactQueryDevtools && <ReactQueryDevtools initialIsOpen={false} />}
     </QueryClientProvider>
   );
 }

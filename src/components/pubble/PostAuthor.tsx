@@ -13,6 +13,8 @@ interface PostAuthorProps {
 }
 
 export default function PostAuthor({ avatarUrl, nickname, date, views, isMine }: PostAuthorProps) {
+  // 임시로 avatarUrl 사용 (나중에 실제 아바타 로직으로 교체)
+  console.log('Avatar URL available:', avatarUrl);
   const [isSubscribed, setIsSubscribed] = useState(false);
 
   const handleSubscribeToggle = () => {

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useDisclosure, VStack, Text, HStack, Box, Input } from '@chakra-ui/react';
 import { AlertTriangle } from 'lucide-react';
 import Button from '@/components/ui/Button';

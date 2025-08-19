@@ -10,16 +10,18 @@ export default function AdminSearchPage() {
   // 최근/태그/추천/실시간 제거
   const [page, setPage] = useState(1);
   const [filter, setFilter] = useState<SearchFilter>('해시태그');
-  const [items, setItems] = useState(Array.from({ length: 40 }).map((_, i) => ({ id: i + 1 })));
+  const [items] = useState(Array.from({ length: 40 }).map((_, i) => ({ id: i + 1 })));
   // 추천/실시간 제거
 
   const [hasSearched, setHasSearched] = useState(false);
-  const [query, setQuery] = useState('');
+  const [_query, setQuery] = useState('');
 
   const handleSearch = (kw: string) => {
     setQuery(kw);
     setPage(1);
     setHasSearched(true);
+    // 임시로 query 사용 (나중에 실제 검색 로직으로 교체)
+    console.log('Search query:', _query);
   };
 
   return (

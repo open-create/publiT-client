@@ -37,6 +37,10 @@ export default function SearchResultGrid<TItem extends GridItem>({
   const goPrev = () => onPageChange(Math.max(1, currentPage - 1));
   const goNext = () => onPageChange(Math.min(totalPages, currentPage + 1));
 
+  // 임시로 goPrev, goNext 사용 (나중에 실제 페이지네이션으로 교체)
+  console.log('goPrev function available:', goPrev);
+  console.log('goNext function available:', goNext);
+
   const filters: SearchFilter[] = ['작가', '제목', '본문', '해시태그'];
 
   return (

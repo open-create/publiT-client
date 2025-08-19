@@ -115,7 +115,7 @@ export default function Header({ variant = 'minimal' }: HeaderProps) {
               profileDisclosure.onToggle();
             }}
             data-modal-trigger
-            onMouseDown={(e) => e.stopPropagation()}
+            onMouseDown={(e: React.MouseEvent) => e.stopPropagation()}
             p="0"
             minW="auto"
             h="auto"

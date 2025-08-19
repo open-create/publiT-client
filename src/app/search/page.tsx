@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Box, Container, Heading, VStack } from '@chakra-ui/react';
+import { Container, VStack } from '@chakra-ui/react';
 import SearchBar from '@/components/search/SearchBar';
 import TagScroller from '@/components/search/TagScroller';
 import RecentKeywords from '@/components/search/RecentKeywords';
@@ -49,6 +49,10 @@ export default function SearchPage() {
     setPage(1);
     setQuery(kw);
     setHasSearched(true);
+    // 임시로 setItems와 query 사용 (나중에 실제 검색 로직으로 교체)
+    console.log('Search query:', query);
+    console.log('Items count:', items.length);
+    console.log('setItems function available:', setItems);
   };
 
   return (

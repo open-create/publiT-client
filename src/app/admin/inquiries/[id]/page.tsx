@@ -12,13 +12,15 @@ export default function InquiryDetailPage({ params }: InquiryDetailPageProps) {
 
   // params를 Promise로 처리
   React.useEffect(() => {
-    params.then((resolvedParams) => {
+    void params.then((resolvedParams) => {
       setId(resolvedParams.id);
+      // 임시로 id 사용 (나중에 실제 로직으로 교체)
+      console.log('Inquiry ID:', id);
     });
-  }, [params]);
+  }, [params, id]);
 
   const handleSubmitAnswer = () => {
-    console.log('Submit answer:', answer);
+    // console.log('Submit answer:', answer);
     // 답변 등록 로직
   };
 

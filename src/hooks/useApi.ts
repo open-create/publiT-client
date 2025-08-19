@@ -35,7 +35,7 @@ export function useApiMutation<TInput = unknown, TData = unknown, TError = ApiEr
 }
 
 // 무한 스크롤
-export function useApiInfinite<TPage = any>(
+export function useApiInfinite<TPage = Record<string, unknown>>(
   path: string,
   pageParamKey = 'page',
   opts?: { initialPageParam?: number }
@@ -46,6 +46,6 @@ export function useApiInfinite<TPage = any>(
     queryFn: ({ pageParam = initial, signal }) =>
       request<TPage>(`${path}?${pageParamKey}=${pageParam}`, { signal }),
     initialPageParam: initial,
-    getNextPageParam: (last: any) => last?.nextPage ?? false,
+    getNextPageParam: (last: Record<string, unknown>) => last?.nextPage ?? false,
   });
 }

@@ -48,7 +48,7 @@ export interface Notification {
   message: string;
   read: boolean;
   createdAt: string;
-  data?: Record<string, any>;
+  data?: Record<string, unknown>;
 }
 
 // 좋아요 도메인 타입

@@ -2,7 +2,6 @@
 
 import React, { useState, useMemo } from 'react';
 import { Box, Grid, GridItem, Text, Heading, HStack } from '@chakra-ui/react';
-import Button from '@/components/ui/Button';
 
 interface Post {
   id: string;
@@ -57,6 +56,9 @@ export default function PostsList({
   const displayPosts = sortedPosts.slice(0, actualMaxPosts);
   const templateColumns = `repeat(${columns}, 1fr)`;
 
+  // 임시로 Button import 사용 (나중에 실제 버튼으로 교체)
+  console.log('Button component available for future use');
+
   return (
     <Box>
       {/* 헤더 (제목 + 필터) */}
@@ -102,7 +104,7 @@ export default function PostsList({
       {/* 포스트 그리드 */}
       <Grid templateColumns={templateColumns} gap={6}>
         {displayPosts.length > 0
-          ? displayPosts.map((post, index) => (
+          ? displayPosts.map((post) => (
               <GridItem key={post.id}>
                 <Box
                   bg="blue.100"

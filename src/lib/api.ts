@@ -36,7 +36,7 @@ export async function request<T>(
         ...(authToken ? { Authorization: `Bearer ${authToken}` } : {}),
         ...headers,
       } as HeadersInit,
-      body: body === undefined ? undefined : isFormData ? (body as FormData) : JSON.stringify(body),
+      ...(body !== undefined && { body: isFormData ? (body as FormData) : JSON.stringify(body) }),
       // 기본은 쿠키 전송 안 함(Authorization 토큰 사용). 필요 시 호출부에서 credentials 지정
       credentials: init.credentials ?? 'omit',
       ...init,
@@ -46,20 +46,21 @@ export async function request<T>(
 
   if (process.env.NODE_ENV === 'development') {
     try {
-      console.log('[request]', {
-        url: `${API_BASE}${path}`,
-        method: init.method ?? 'GET',
-        hasAuthHeader: Boolean(effectiveToken),
-        credentials: init.credentials ?? 'omit',
-      });
+      // console.log('[request]', {
+      //   url: `${API_BASE}${path}`,
+      //   method: init.method ?? 'GET',
+      //   hasAuthHeader: Boolean(effectiveToken),
+      //   credentials: init.credentials ?? 'omit',
+      // });
     } catch {}
   }
 
   // 204 No Content 대응
-  if (res.status === 204) return undefined as unknown as T;
+  if (res.status === 204) return undefined as T;
 
   const ct = res.headers.get('content-type') ?? '';
-  const parse = async () => (ct.includes('application/json') ? await res.json() : await res.text());
+  const parse = async (): Promise<unknown> =>
+    ct.includes('application/json') ? await res.json() : await res.text();
 
   // 401이면 토큰 재발급 시도 후 1회 재시도
   if (res.status === 401) {
@@ -69,7 +70,7 @@ export async function request<T>(
         credentials: 'include',
       });
       if (refresh.ok) {
-        const refreshed = (await refresh.json()) as any;
+        const refreshed = (await refresh.json()) as { data?: string } | null;
         const newToken: string | undefined = refreshed?.data;
         if (newToken && typeof window !== 'undefined') {
           localStorage.setItem('accessToken', newToken);
@@ -86,15 +87,16 @@ export async function request<T>(
     } catch {
       payload = undefined;
     }
-    const message = (payload as any)?.message ?? res.statusText ?? `HTTP ${res.status}`;
+    const message =
+      (payload as { message?: string })?.message ?? res.statusText ?? `HTTP ${res.status}`;
     throw new ApiError(message, res.status, payload);
   }
 
   try {
-    const data = (await parse()) as T;
-    return data;
+    const data = await parse();
+    return data as T;
   } catch {
     // 응답 본문이 비어있거나 파싱 불가인 경우
-    return undefined as unknown as T;
+    return undefined as T;
   }
 }

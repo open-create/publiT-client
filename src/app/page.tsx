@@ -2,14 +2,12 @@
 
 import FeedList from '@/components/main/FeedList';
 import FeedFilter from '@/components/main/FeedFilter';
-import { Grid, GridItem, HStack, Button, Box, VStack } from '@chakra-ui/react';
+import { Grid, GridItem, VStack } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { useRefreshToken } from '@/apis/auth';
 
 export default function HomePage() {
-  const [source, setSource] = useState<'smart' | 'popular' | 'subscribed' | 'recent' | 'notice'>(
-    'smart'
-  );
+  const [source] = useState<'smart' | 'popular' | 'subscribed' | 'recent' | 'notice'>('smart');
   const [filter, setFilter] = useState<'smart' | 'popular' | 'subscribed'>('smart');
 
   const refreshTokenMutation = useRefreshToken();
@@ -22,7 +20,7 @@ export default function HomePage() {
     const raw = sessionStorage.getItem('auth:lastRefresh');
     if (raw) {
       try {
-        console.log('[auth] lastRefresh:', JSON.parse(raw));
+        // console.log('[auth] lastRefresh:', JSON.parse(raw));
       } catch {}
       sessionStorage.removeItem('auth:lastRefresh');
     }
@@ -34,14 +32,14 @@ export default function HomePage() {
       sessionStorage.setItem('auth:triedRefreshOnHome', '1');
       refreshTokenMutation.mutate(undefined, {
         onSuccess: (data) => {
-          console.log('[auth] refresh from home success:', data);
+          // console.log('[auth] refresh from home success:', data);
           if (data?.success && data?.data) {
             localStorage.setItem('accessToken', data.data);
             sessionStorage.setItem('auth:lastRefresh', JSON.stringify(data));
           }
         },
-        onError: (err) => {
-          console.error('[auth] refresh from home error:', err);
+        onError: () => {
+          // console.error('[auth] refresh from home error:', err);
         },
       });
     }

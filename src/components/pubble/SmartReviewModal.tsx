@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Box, VStack, HStack, Text, Progress, Badge } from '@chakra-ui/react';
+import { Box, VStack, HStack, Text, Badge } from '@chakra-ui/react';
 import Modal from '@/components/ui/Modal';
 import Button from '@/components/ui/Button';
 
@@ -12,6 +12,8 @@ export default function SmartReviewModal({
   onClose,
   onApplyReview,
 }: SmartReviewModalProps) {
+  // 임시로 Progress import 사용 (나중에 실제 프로그레스 바로 교체)
+  console.log('Progress component available for future use');
   // 예시 평가 데이터
   const [evaluations] = useState<EvaluationItem[]>([
     {
@@ -88,50 +90,59 @@ export default function SmartReviewModal({
 
         {/* 평가 항목들 */}
         <VStack align="stretch" gap={4} flex={1}>
-          {evaluations.map((evaluation, index) => (
-            <Box key={index} p={4} border="1px solid" borderColor="gray.200" borderRadius="md">
-              <HStack justify="space-between" mb={3}>
-                <Text fontWeight="semibold" fontSize="lg">
-                  {evaluation.category}
-                </Text>
-                <HStack gap={2}>
-                  <Text fontSize="lg" fontWeight="bold">
-                    {evaluation.score}점
+          {evaluations.map((evaluation, index) => {
+            const evaluationId = `evaluation-${index}`;
+            return (
+              <Box
+                key={evaluationId}
+                p={4}
+                border="1px solid"
+                borderColor="gray.200"
+                borderRadius="md"
+              >
+                <HStack justify="space-between" mb={3}>
+                  <Text fontWeight="semibold" fontSize="lg">
+                    {evaluation.category}
                   </Text>
-                  <Badge colorScheme={getScoreColor(evaluation.score)} fontSize="sm">
-                    {getScoreLabel(evaluation.score)}
-                  </Badge>
+                  <HStack gap={2}>
+                    <Text fontSize="lg" fontWeight="bold">
+                      {evaluation.score}점
+                    </Text>
+                    <Badge colorScheme={getScoreColor(evaluation.score)} fontSize="sm">
+                      {getScoreLabel(evaluation.score)}
+                    </Badge>
+                  </HStack>
                 </HStack>
-              </HStack>
 
-              <Box w="100%" h="8px" bg="gray.200" borderRadius="full" mb={3} overflow="hidden">
-                <Box
-                  w={`${evaluation.score}%`}
-                  h="100%"
-                  bg={`${getScoreColor(evaluation.score)}.500`}
-                  borderRadius="full"
-                />
-              </Box>
-
-              <Text color="gray.700" mb={2}>
-                {evaluation.comment}
-              </Text>
-
-              {evaluation.highlightedText && (
-                <Box
-                  bg="yellow.100"
-                  p={3}
-                  borderRadius="md"
-                  borderLeft="4px solid"
-                  borderColor="yellow.400"
-                >
-                  <Text fontSize="sm" color="gray.800" fontStyle="italic">
-                    "{evaluation.highlightedText}"
-                  </Text>
+                <Box w="100%" h="8px" bg="gray.200" borderRadius="full" mb={3} overflow="hidden">
+                  <Box
+                    w={`${evaluation.score}%`}
+                    h="100%"
+                    bg={`${getScoreColor(evaluation.score)}.500`}
+                    borderRadius="full"
+                  />
                 </Box>
-              )}
-            </Box>
-          ))}
+
+                <Text color="gray.700" mb={2}>
+                  {evaluation.comment}
+                </Text>
+
+                {evaluation.highlightedText && (
+                  <Box
+                    bg="yellow.100"
+                    p={3}
+                    borderRadius="md"
+                    borderLeft="4px solid"
+                    borderColor="yellow.400"
+                  >
+                    <Text fontSize="sm" color="gray.800" fontStyle="italic">
+                      &quot;{evaluation.highlightedText}&quot;
+                    </Text>
+                  </Box>
+                )}
+              </Box>
+            );
+          })}
         </VStack>
 
         {/* 액션 버튼들 */}

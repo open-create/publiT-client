@@ -3,7 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Box, VStack, Heading, HStack, Text } from '@chakra-ui/react';
+import { Box, VStack, HStack, Text } from '@chakra-ui/react';
 
 export default function Sidebar() {
   const pathname = usePathname();

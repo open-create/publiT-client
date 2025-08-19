@@ -1,10 +1,10 @@
 // DataTable Props
-export interface DataTableProps<T = any> {
+export interface DataTableProps<T = Record<string, unknown>> {
   data: T[];
   columns: Array<{
     key: string;
     label: string;
-    render?: (value: any, row: T) => React.ReactNode;
+    render?: (value: unknown, row: T) => React.ReactNode;
   }>;
   onRowClick?: (row: T) => void;
   isLoading?: boolean;

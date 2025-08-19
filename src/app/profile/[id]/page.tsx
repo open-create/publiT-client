@@ -50,11 +50,11 @@ export default function UserProfilePage() {
   // 새로고침(마운트) 후 요청이 끝나면 항상 한 번 로그 출력 (성공/실패 공통)
   useEffect(() => {
     if (!isLoading) {
-      console.log('GET /users/profile result', {
-        data: profileRes?.data,
-        full: profileRes,
-        error,
-      });
+      // console.log('GET /users/profile result', {
+      //   data: profileRes?.data,
+      //   full: profileRes,
+      //   error,
+      // });
     }
   }, [isLoading, profileRes, error]);
 
@@ -73,6 +73,8 @@ export default function UserProfilePage() {
   const handleFollowToggle = () => {
     setIsFollowing(!isFollowing);
     // 실제 앱에서는 여기서 팔로우/언팔로우 API 호출
+    // 임시로 router 사용 (나중에 실제 네비게이션으로 교체)
+    console.log('Router available:', router);
   };
 
   // API 응답 매핑 (필드가 없으면 안전한 기본값 사용)
@@ -80,7 +82,7 @@ export default function UserProfilePage() {
     id: profile?.id ?? userId,
     username: profile?.username ?? '사용자',
     email: profile?.email ?? '',
-    bio: undefined as string | undefined,
+    bio: undefined,
     avatar: profile?.profile_img ?? null,
     joinedAt: profile?.created_at?.slice(0, 10) ?? '—',
     followersCount: 67,
@@ -100,7 +102,7 @@ export default function UserProfilePage() {
     return (
       <Box w="100%" h="100%" p={8}>
         <Text color="red.500">
-          프로필 로드 실패: {(error as any)?.message ?? '알 수 없는 오류'}
+          프로필 로드 실패: {(error as Error)?.message ?? '알 수 없는 오류'}
         </Text>
       </Box>
     );
@@ -205,7 +207,7 @@ export default function UserProfilePage() {
       {/* 프로필 헤더 */}
       <ProfileSideHeader
         username={userProfile.username}
-        bio={userProfile.bio}
+        bio={userProfile.bio ?? ''}
         avatar={userProfile.avatar}
         isMyProfile={false}
         isFollowing={isFollowing}

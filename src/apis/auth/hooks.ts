@@ -1,7 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { useRefreshToken } from './api';
-import { time } from 'console';
 
 // 로그인 후 토큰 재발급 및 리다이렉트 처리
 export function useAuthRedirect() {
@@ -21,7 +20,7 @@ export function useAuthRedirect() {
     // 토큰 재발급 요청 (쿠키 기반) — 항상 1회 시도
     refreshTokenMutation.mutate(undefined, {
       onSuccess: (data) => {
-        console.log('[auth] refresh-token success:', data, new Date().toISOString());
+        // console.log('[auth] refresh-token success:', data, new Date().toISOString());
         if (data?.success && data?.data) {
           // accessToken 저장
           localStorage.setItem('accessToken', data.data);
@@ -29,8 +28,8 @@ export function useAuthRedirect() {
           if (showSpinnerByParam) router.replace('/');
         }
       },
-      onError: (error) => {
-        console.error('[auth] refresh-token error:', error, new Date().toISOString());
+      onError: () => {
+        // console.error('[auth] refresh-token error:', error, new Date().toISOString());
         // 실패 시에는 현재 페이지에서 로그인 버튼 노출 (리다이렉트 없음)
       },
     });

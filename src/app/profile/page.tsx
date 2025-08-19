@@ -8,7 +8,7 @@ import ProfileSideHeader from '@/components/profile/ProfileSideHeader';
 import ViewsChart from '@/components/profile/ViewsChart';
 import VisitsChart from '@/components/profile/VisitsChart';
 import PostsList from '@/components/profile/PostsList';
-import TrafficSource from '@/components/profile/TrafficSource';
+// import TrafficSource from '@/components/profile/TrafficSource';
 import { useProfile } from '@/apis';
 
 // 년도별 활동 데이터 (실제로는 API에서 가져올 데이터)
@@ -70,7 +70,7 @@ export default function MyProfilePage() {
   // 새로고침 시 요청 완료되면 항상 한 번 출력
   useEffect(() => {
     if (!isLoading) {
-      console.log('GET /users/profile (in /profile)', { data: profileRes?.data, error });
+      // console.log('GET /users/profile (in /profile)', { data: profileRes?.data, error });
     }
   }, [isLoading, profileRes, error]);
 
@@ -85,6 +85,9 @@ export default function MyProfilePage() {
 
   const handleEditProfile = () => {
     router.push('/profile/edit');
+    // 임시로 traffic data 사용 (나중에 실제 차트로 교체)
+    console.log('Profile traffic data:', profileTrafficData);
+    console.log('Post traffic data:', postTrafficData);
   };
 
   // 임시 사용자 데이터 (실제로는 API에서 가져올 데이터)

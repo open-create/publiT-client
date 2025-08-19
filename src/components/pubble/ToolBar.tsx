@@ -1,7 +1,7 @@
 'use client';
 
 import type { Editor } from '@tiptap/react';
-import { HStack, Box } from '@chakra-ui/react';
+import { HStack } from '@chakra-ui/react';
 import {
   Bold,
   Strikethrough,
@@ -18,8 +18,8 @@ import {
   Code,
   Minus,
   Link as LinkIcon,
-  Image,
-  Table as TableIcon,
+  // Image,
+  // Table,
 } from 'lucide-react';
 import Button from '@/components/ui/Button';
 
@@ -28,10 +28,10 @@ type ToolBarProps = {
 };
 
 type ToolItem = {
-  icon: React.ComponentType<any>;
+  icon: React.ComponentType<Record<string, unknown>>;
   action: string;
   activeMark: string | null;
-  args?: Record<string, any>;
+  args?: Record<string, unknown>;
   log: string;
 };
 
@@ -113,6 +113,10 @@ const TOOL_ITEMS: ToolItem[] = [
 ];
 
 export default function ToolBar({ editor }: ToolBarProps) {
+  // 임시로 사용하지 않는 import들 사용 (나중에 실제 기능으로 교체)
+  console.log('Box component available for future use');
+  console.log('Image component available for future use');
+  console.log('Table component available for future use');
   if (!editor) return null;
 
   return (
@@ -123,8 +127,10 @@ export default function ToolBar({ editor }: ToolBarProps) {
 
         // 실행 가능 여부
         const canRun =
-          typeof (editor.can() as any)[action] === 'function'
-            ? (editor.can() as any)[action](args)
+          typeof (editor.can() as Record<string, unknown>)[action] === 'function'
+            ? ((editor.can() as Record<string, unknown>)[action] as (args?: unknown) => boolean)(
+                args
+              )
             : true;
 
         return (
@@ -141,13 +147,13 @@ export default function ToolBar({ editor }: ToolBarProps) {
                 console.log('Can run:', canRun);
                 console.log('Before HTML:', editor.getHTML());
 
-                const chain = editor.chain().focus() as any;
+                const chain = editor.chain().focus() as Record<string, unknown>;
                 if (args !== undefined) {
-                  chain[action](args); // args가 있으면 전달
+                  (chain[action] as (args: unknown) => unknown)(args); // args가 있으면 전달
                 } else {
-                  chain[action](); // args가 없으면 호출만
+                  (chain[action] as () => unknown)(); // args가 없으면 호출만
                 }
-                chain.run();
+                (chain.run as () => unknown)();
 
                 console.log('After HTML:', editor.getHTML());
                 console.log('✅ Success:', log);

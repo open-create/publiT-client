@@ -44,7 +44,9 @@ export default function ImageUploader({
 
       // 이미지 파일 타입 체크
       if (!acceptedFormats.some((format) => file.type === format)) {
-        const formatNames = acceptedFormats.map((f) => f.split('/')[1].toUpperCase()).join(', ');
+        const formatNames = acceptedFormats
+          .map((f) => f.split('/')[1]?.toUpperCase() ?? 'UNKNOWN')
+          .join(', ');
         toaster.create({
           title: `${formatNames} 파일만 업로드 가능합니다.`,
           type: 'error',
@@ -102,8 +104,8 @@ export default function ImageUploader({
             >
               {previewImage ? (
                 <img
+                  alt="Preview"
                   src={previewImage}
-                  alt="프로필 이미지"
                   style={{
                     width: '100%',
                     height: '100%',

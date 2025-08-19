@@ -1,15 +1,7 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import {
-  Box,
-  Container,
-  HStack,
-  VStack,
-  Text,
-  ButtonGroup,
-  Button as CkButton,
-} from '@chakra-ui/react';
+import { Container, VStack } from '@chakra-ui/react';
 import FilterBar from '@/components/notifications/FilterBar';
 import NotificationList from '@/components/notifications/NotificationList';
 import { NotificationsFilter, NotificationItem } from '@/components/notifications/types';

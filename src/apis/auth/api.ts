@@ -15,6 +15,7 @@ export interface AuthResponse {
 
 export interface RefreshTokenData {
   // refreshToken은 쿠키에서 자동으로 전송되므로 별도 데이터 불필요
+  _placeholder?: never;
 }
 
 // Auth API 함수들

@@ -6,7 +6,7 @@ export interface ButtonProps {
   onClick?: () => void;
   disabled?: boolean;
   type?: 'button' | 'submit' | 'reset';
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 // Modal Props
@@ -24,7 +24,7 @@ export interface ModalProps {
   showTitleAction?: boolean;
   onTitleAction?: () => void;
   withOverlay?: boolean;
-  containerProps?: any;
+  containerProps?: Record<string, unknown>;
   closeOnOutsideClick?: boolean;
 }
 
@@ -42,7 +42,7 @@ export interface UiSelectProps {
 export interface UiInputProps {
   variant?: 'outline' | 'filled' | 'flushed' | 'unstyled';
   size?: 'xs' | 'sm' | 'md' | 'lg';
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 // ImageUploader Props
@@ -79,5 +79,5 @@ export interface ColorModeProviderProps {
 export interface ColorModeButtonProps {
   size?: 'sm' | 'md' | 'lg';
   variant?: 'ghost' | 'outline' | 'solid';
-  [key: string]: any;
+  [key: string]: unknown;
 }

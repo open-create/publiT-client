@@ -1,9 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
-import { useDisclosure } from '@chakra-ui/react';
+import { useDisclosure, VStack, Text, HStack, Box, Input } from '@chakra-ui/react';
 import { AlertTriangle } from 'lucide-react';
-import { VStack, Text, HStack, Box, Input } from '@chakra-ui/react';
 import Button from '@/components/ui/Button';
 import Modal from '@/components/ui/Modal';
 

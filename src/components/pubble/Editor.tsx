@@ -1,7 +1,6 @@
 'use client';
 
-import React from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import './editor.css';
 import { Box, VStack, Container } from '@chakra-ui/react';
 import { Input } from '@/components/ui';

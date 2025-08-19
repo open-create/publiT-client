@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Box, Heading, HStack, Input, Text, Icon, Image } from '@chakra-ui/react';
+import { Box, Heading, HStack, Input, Text, Icon } from '@chakra-ui/react';
 import { ChevronRight, User } from 'lucide-react';
 import CommentsModal from './CommentsModal';
 

@@ -52,6 +52,7 @@ export default function SearchPage() {
     // 임시로 setItems와 query 사용 (나중에 실제 검색 로직으로 교체)
     console.log('Search query:', query);
     console.log('Items count:', items.length);
+    console.log('setItems function available:', setItems);
   };
 
   return (

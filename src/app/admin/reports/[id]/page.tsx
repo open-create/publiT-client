@@ -8,14 +8,16 @@ import { Select as UiSelect } from '@/components/ui';
 import { ReportDetailPageProps } from '../../types';
 
 export default function ReportDetailPage({ params }: ReportDetailPageProps) {
-  const [_id, setId] = React.useState<string>('');
+  const [reportId, setId] = React.useState<string>('');
 
   // params를 Promise로 처리
   React.useEffect(() => {
     void params.then((resolvedParams) => {
       setId(resolvedParams.id);
+      // 임시로 reportId 사용 (나중에 실제 로직으로 교체)
+      console.log('Report ID:', reportId);
     });
-  }, [params]);
+  }, [params, reportId]);
   const [status, setStatus] = useState('');
   const [processingNote, setProcessingNote] = useState('');
 

@@ -1,6 +1,6 @@
 'use client';
 
-import { VStack, Button, Text, HStack, Box, Icon } from '@chakra-ui/react';
+import { VStack, Button, Text, HStack, Icon } from '@chakra-ui/react';
 import FeedItem from './FeedItem';
 import { ChevronRight } from 'lucide-react';
 import { usePubbles } from '@/apis/pubble';
@@ -18,7 +18,7 @@ export default function FeedList({ source, variant, limit }: FeedListProps) {
   const { data, error } = usePubbles({
     source,
     page: 1,
-    limit: variant === 'side' ? limit ?? 4 : undefined,
+    ...(variant === 'side' && limit && { limit }),
   });
 
   // 실패 시 콘솔 로깅

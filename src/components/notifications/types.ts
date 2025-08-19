@@ -32,7 +32,7 @@ export interface NotificationListProps {
     read: boolean;
     createdAt: string;
   }>;
-  onNotificationClick: (notification: any) => void;
+  onNotificationClick: (notification: Record<string, unknown>) => void;
   isLoading?: boolean;
 }
 
@@ -46,7 +46,7 @@ export interface NotificationRowProps {
     read: boolean;
     createdAt: string;
   };
-  onClick: (notification: any) => void;
+  onClick: (notification: Record<string, unknown>) => void;
 }
 
 // FilterBar Props

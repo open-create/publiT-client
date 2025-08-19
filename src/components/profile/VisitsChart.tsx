@@ -5,7 +5,7 @@ import { Box, VStack, Text } from '@chakra-ui/react';
 
 interface VisitsChartProps {
   totalVisits: number;
-  chartData?: any[]; // 추후 차트 라이브러리에 맞게 타입 정의
+  chartData?: Record<string, unknown>[]; // 추후 차트 라이브러리에 맞게 타입 정의
   title?: string;
 }
 

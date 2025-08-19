@@ -1,5 +1,5 @@
 // API 응답 타입
-export interface ApiResponse<T = any> {
+export interface ApiResponse<T = Record<string, unknown>> {
   success: boolean;
   data?: T;
   error?: string;
@@ -26,7 +26,7 @@ export interface PaginatedResponse<T> {
 export interface AppError {
   code: string;
   message: string;
-  details?: Record<string, any>;
+  details?: Record<string, unknown>;
 }
 
 // 로딩 상태 타입
@@ -36,7 +36,7 @@ export interface LoadingState {
 }
 
 // 폼 상태 타입
-export interface FormState<T = any> {
+export interface FormState<T = Record<string, unknown>> {
   data: T;
   errors: Record<string, string>;
   isSubmitting: boolean;

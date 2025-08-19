@@ -56,10 +56,11 @@ export async function request<T>(
   }
 
   // 204 No Content 대응
-  if (res.status === 204) return undefined as unknown as T;
+  if (res.status === 204) return undefined as T;
 
   const ct = res.headers.get('content-type') ?? '';
-  const parse = async () => (ct.includes('application/json') ? await res.json() : await res.text());
+  const parse = async (): Promise<unknown> =>
+    ct.includes('application/json') ? await res.json() : await res.text();
 
   // 401이면 토큰 재발급 시도 후 1회 재시도
   if (res.status === 401) {
@@ -69,7 +70,7 @@ export async function request<T>(
         credentials: 'include',
       });
       if (refresh.ok) {
-        const refreshed = (await refresh.json()) as { data?: string };
+        const refreshed = (await refresh.json()) as { data?: string } | null;
         const newToken: string | undefined = refreshed?.data;
         if (newToken && typeof window !== 'undefined') {
           localStorage.setItem('accessToken', newToken);
@@ -92,10 +93,10 @@ export async function request<T>(
   }
 
   try {
-    const data = (await parse()) as T;
-    return data;
+    const data = await parse();
+    return data as T;
   } catch {
     // 응답 본문이 비어있거나 파싱 불가인 경우
-    return undefined as unknown as T;
+    return undefined as T;
   }
 }

@@ -28,7 +28,7 @@ export function useAuthRedirect() {
           if (showSpinnerByParam) router.replace('/');
         }
       },
-      onError: (error) => {
+      onError: () => {
         // console.error('[auth] refresh-token error:', error, new Date().toISOString());
         // 실패 시에는 현재 페이지에서 로그인 버튼 노출 (리다이렉트 없음)
       },

@@ -40,9 +40,9 @@ export default function PubbleSettingsModal({
     onPublish?.({
       type,
       tags,
-      categoryId: categoryId || undefined,
+      ...(categoryId && { categoryId }),
       visibility,
-      password: visibility === 'private' ? password : undefined,
+      ...(visibility === 'private' && password && { password }),
       adultOnly,
     });
     onClose();

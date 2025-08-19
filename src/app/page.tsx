@@ -38,7 +38,7 @@ export default function HomePage() {
             sessionStorage.setItem('auth:lastRefresh', JSON.stringify(data));
           }
         },
-        onError: (err) => {
+        onError: () => {
           // console.error('[auth] refresh from home error:', err);
         },
       });

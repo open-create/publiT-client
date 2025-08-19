@@ -1,17 +1,7 @@
 'use client';
 
-import { useMemo, useState, use } from 'react';
-import {
-  Box,
-  Container,
-  HStack,
-  VStack,
-  Text,
-  IconButton,
-  Heading,
-  Grid,
-  GridItem,
-} from '@chakra-ui/react';
+import { useMemo, use } from 'react';
+import { Box, Container, HStack, VStack, Text, IconButton, Heading } from '@chakra-ui/react';
 import { ChevronLeft } from 'lucide-react';
 import { PostAuthor, PostBody, CommentsSection, PostNavigation } from '@/components/pubble';
 import RecommendedCarousel from '@/components/search/RecommendedCarousel';

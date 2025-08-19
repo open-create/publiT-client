@@ -1,13 +1,13 @@
 'use client';
 
 import React from 'react';
-import { Container, Flex, Button, Heading, Box, Text, Spinner, Center } from '@chakra-ui/react';
+import { Container, Flex, Heading, Box, Text, Spinner, Center } from '@chakra-ui/react';
 import { LoginForm, AutoLoginCheckbox } from '@/components/auth';
 import { useAuthRedirect } from '@/apis/auth';
 // import { Toaster, toaster } from '@/components/ui/Toaster';
 
 export default function AuthPage() {
-  const { isRefreshing, error } = useAuthRedirect();
+  const { isRefreshing } = useAuthRedirect();
 
   // 토큰 재발급 중일 때 로딩 표시
   if (isRefreshing) {

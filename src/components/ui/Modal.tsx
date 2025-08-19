@@ -176,7 +176,7 @@ export default function Modal({
             boxShadow="xl"
             w="100%"
             maxW={maxW[size]}
-            onClick={(e) => e.stopPropagation()}
+            onClick={(e: React.MouseEvent) => e.stopPropagation()}
             pointerEvents="auto"
             overflow="visible"
             ref={contentRef}

@@ -12,7 +12,16 @@ const nextConfig = {
     optimizePackageImports: ['@chakra-ui/react'],
   },
   images: {
-    domains: ['localhost', 'your-domain.com'],
+    remotePatterns: [
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+      },
+      {
+        protocol: 'https',
+        hostname: 'publit-client-50435321099.asia-northeast3.run.app',
+      },
+    ],
   },
   env: {
     CUSTOM_KEY: 'my-value',

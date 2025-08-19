@@ -3,7 +3,7 @@ const nextConfig = {
   webpack: (config) => {
     config.resolve.alias = {
       ...config.resolve.alias,
-      '@': require('path').resolve(__dirname, 'src'),
+      '@': new URL('./src', import.meta.url).pathname,
     };
     return config;
   },
@@ -12,7 +12,16 @@ const nextConfig = {
     optimizePackageImports: ['@chakra-ui/react'],
   },
   images: {
-    domains: ['localhost', 'your-domain.com'],
+    remotePatterns: [
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+      },
+      {
+        protocol: 'https',
+        hostname: 'publit-client-50435321099.asia-northeast3.run.app',
+      },
+    ],
   },
   env: {
     CUSTOM_KEY: 'my-value',

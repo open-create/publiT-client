@@ -32,7 +32,7 @@ export default function TagScroller({ tags, onSelect }: TagScrollerProps) {
       </Box>
 
       <HStack
-        ref={scrollRef as any}
+        ref={scrollRef}
         gap={2}
         overflowX="auto"
         flex={1}

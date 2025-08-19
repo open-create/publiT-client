@@ -11,7 +11,7 @@ export default function NoticeDetailPage({ params }: NoticeDetailPageProps) {
 
   // params를 Promise로 처리
   React.useEffect(() => {
-    params.then((resolvedParams) => {
+    void params.then((resolvedParams) => {
       setId(resolvedParams.id);
     });
   }, [params]);

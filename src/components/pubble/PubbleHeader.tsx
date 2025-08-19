@@ -23,7 +23,7 @@ export default function PubbleHeader({
         <Button
           variant="ghost"
           size="sm"
-          onClick={onBack}
+          onClick={onBack ?? (() => {})}
           p="0"
           minW="auto"
           h="auto"
@@ -50,7 +50,7 @@ export default function PubbleHeader({
             h="auto"
             bg="transparent"
             _hover={{ bg: 'transparent' }}
-            onClick={onOpenSettings}
+            onClick={onOpenSettings ?? (() => {})}
             aria-label="설정"
           >
             <HStack gap={1.5}>
@@ -68,7 +68,7 @@ export default function PubbleHeader({
               bg="white"
               color="blue.500"
               _hover={{ color: 'gray.800' }}
-              onClick={onSmartReview}
+              onClick={onSmartReview ?? (() => {})}
             >
               스마트 리뷰
             </Button>
@@ -81,7 +81,7 @@ export default function PubbleHeader({
               bg="white"
               color="blue.500"
               _hover={{ color: 'gray.800' }}
-              onClick={onQualityCheck}
+              onClick={onQualityCheck ?? (() => {})}
             >
               스마트 품질 검사
             </Button>
@@ -93,7 +93,7 @@ export default function PubbleHeader({
             bg="blue.500"
             color="white"
             _hover={{ bg: 'blue.600' }}
-            onClick={onTempSave}
+            onClick={onTempSave ?? (() => {})}
           >
             저장
           </Button>
@@ -105,7 +105,7 @@ export default function PubbleHeader({
               bg="blue.500"
               color="white"
               _hover={{ bg: 'blue.600' }}
-              onClick={onPublish}
+              onClick={onPublish ?? (() => {})}
             >
               발행
             </Button>

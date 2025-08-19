@@ -1,6 +1,5 @@
 'use client';
 
-import React from 'react';
 import Link from 'next/link';
 import { VStack, HStack, Heading, Grid, GridItem, Box, Text } from '@chakra-ui/react';
 

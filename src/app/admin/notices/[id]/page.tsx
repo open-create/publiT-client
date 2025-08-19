@@ -7,7 +7,14 @@ import NoticeForm from '@/components/admin/NoticeForm';
 import { NoticeDetailPageProps } from '../../types';
 
 export default function NoticeDetailPage({ params }: NoticeDetailPageProps) {
-  const { id } = params;
+  const [id, setId] = React.useState<string>('');
+
+  // params를 Promise로 처리
+  React.useEffect(() => {
+    params.then((resolvedParams) => {
+      setId(resolvedParams.id);
+    });
+  }, [params]);
 
   return (
     <VStack align="stretch" gap={6}>

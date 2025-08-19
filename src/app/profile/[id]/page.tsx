@@ -32,7 +32,14 @@ const mockDataByYear: Record<number, { date: string; count: number }[]> = {
 export default function UserProfilePage() {
   const params = useParams();
   const router = useRouter();
-  const userId = params.id as string;
+  const [userId, setUserId] = useState<string>('');
+
+  // useParams도 Promise일 수 있으므로 처리
+  useEffect(() => {
+    if (params && typeof params === 'object' && 'id' in params) {
+      setUserId(params.id as string);
+    }
+  }, [params]);
   const [selectedYear, setSelectedYear] = useState<number>(new Date().getFullYear());
   const [isFollowing, setIsFollowing] = useState<boolean>(false);
 

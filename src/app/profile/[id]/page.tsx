@@ -1,11 +1,12 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import { Container, Box, Heading, VStack } from '@chakra-ui/react';
+import { Container, Box, Heading, VStack, Text } from '@chakra-ui/react';
 import ContributionGrid from '@/components/profile/ContributionGrid';
 import ProfileSideHeader from '@/components/profile/ProfileSideHeader';
 import PostsList from '@/components/profile/PostsList';
+import { useProfile } from '@/apis';
 
 // 년도별 활동 데이터 (실제로는 API에서 가져올 데이터)
 const mockDataByYear: Record<number, { date: string; count: number }[]> = {
@@ -35,6 +36,21 @@ export default function UserProfilePage() {
   const [selectedYear, setSelectedYear] = useState<number>(new Date().getFullYear());
   const [isFollowing, setIsFollowing] = useState<boolean>(false);
 
+  // 내 프로필 정보 불러오기 (/users/profile)
+  const { data: profileRes, isLoading, error } = useProfile();
+  const profile = profileRes?.data;
+
+  // 새로고침(마운트) 후 요청이 끝나면 항상 한 번 로그 출력 (성공/실패 공통)
+  useEffect(() => {
+    if (!isLoading) {
+      console.log('GET /users/profile result', {
+        data: profileRes?.data,
+        full: profileRes,
+        error,
+      });
+    }
+  }, [isLoading, profileRes, error]);
+
   // 선택된 년도의 데이터 가져오기
   const currentData = mockDataByYear[selectedYear] || [];
 
@@ -52,18 +68,36 @@ export default function UserProfilePage() {
     // 실제 앱에서는 여기서 팔로우/언팔로우 API 호출
   };
 
-  // 임시 사용자 데이터 (실제로는 API에서 가져올 데이터)
+  // API 응답 매핑 (필드가 없으면 안전한 기본값 사용)
   const userProfile = {
-    id: userId,
-    username: '김지현',
-    email: 'user@example.com',
-    bio: '안녕하세요! 퍼블릿에서 활동하고 있습니다.',
-    avatar: null,
-    joinedAt: '2022-03-15',
+    id: profile?.id ?? userId,
+    username: profile?.username ?? '사용자',
+    email: profile?.email ?? '',
+    bio: undefined as string | undefined,
+    avatar: profile?.profile_img ?? null,
+    joinedAt: profile?.created_at?.slice(0, 10) ?? '—',
     followersCount: 67,
     followingCount: 42,
-    isMyProfile: false, // 남의 프로필이므로 false
+    isMyProfile: profile?.id === userId,
   };
+
+  if (isLoading) {
+    return (
+      <Box w="100%" h="100%" p={8}>
+        <Text color="gray.600">프로필 정보를 불러오는 중…</Text>
+      </Box>
+    );
+  }
+
+  if (error) {
+    return (
+      <Box w="100%" h="100%" p={8}>
+        <Text color="red.500">
+          프로필 로드 실패: {(error as any)?.message ?? '알 수 없는 오류'}
+        </Text>
+      </Box>
+    );
+  }
 
   // 임시 포스트 데이터 (많은 데이터로 테스트)
   const mockPosts = [
@@ -175,6 +209,20 @@ export default function UserProfilePage() {
       {/* 메인 영역 */}
       <Container maxW="1200px" py={8}>
         <VStack gap={12} align="stretch">
+          {/* 기본 프로필 정보 (백엔드가 주는 필드만 노출) */}
+          <Box border="1px solid" borderColor="gray.200" borderRadius="lg" p={6}>
+            <VStack align="start" gap={2}>
+              <Text>
+                <b>ID</b>: {profile?.id ?? '—'}
+              </Text>
+              <Text>
+                <b>이메일</b>: {profile?.email ?? '—'}
+              </Text>
+              <Text>
+                <b>가입일</b>: {userProfile.joinedAt}
+              </Text>
+            </VStack>
+          </Box>
           {/* 활동 내역 */}
           <Box>
             <Heading size="lg" mb={6} color="blue.600">

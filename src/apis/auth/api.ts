@@ -1,36 +1,38 @@
 import { useApiMutation } from '@/hooks/useApi';
-import { ApiResponse } from '@/types';
 
 // Auth 관련 타입
 export interface LoginData {
   provider: 'google' | 'kakao' | 'naver';
 }
 
+// 백엔드 응답 구조에 맞춘 타입
 export interface AuthResponse {
-  accessToken: string;
-  refreshToken: string;
-  user: {
-    id: string;
-    username: string;
-    email: string;
-    avatar?: string;
-  };
+  success: boolean;
+  code: number;
+  message: string;
+  data: string; // accessToken
 }
 
 export interface RefreshTokenData {
-  refreshToken: string;
+  // refreshToken은 쿠키에서 자동으로 전송되므로 별도 데이터 불필요
 }
 
 // Auth API 함수들
 export const authApi = {
   // 소셜 로그인 (리다이렉트)
   getSocialLoginUrl: (provider: string) => `/auth/login-${provider}`,
-  
+
   // 토큰 재발급
   refreshToken: () => '/auth/refresh-token',
 };
 
+// 소셜 로그인 리다이렉트 함수
+export function redirectToSocialLogin(provider: 'google' | 'kakao' | 'naver') {
+  const baseUrl = process.env.NEXT_PUBLIC_API_BASE || 'http://localhost:3001';
+  window.location.href = `${baseUrl}/auth/login-${provider}`;
+}
+
 // Auth Hooks
 export function useRefreshToken() {
-  return useApiMutation<RefreshTokenData, AuthResponse>('/auth/refresh-token', 'POST');
+  return useApiMutation<void, AuthResponse>('/auth/refresh-token', 'POST');
 }

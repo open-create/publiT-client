@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Container, Box, Heading, VStack, Grid, GridItem } from '@chakra-ui/react';
 import ContributionGrid from '@/components/profile/ContributionGrid';
@@ -9,6 +9,7 @@ import ViewsChart from '@/components/profile/ViewsChart';
 import VisitsChart from '@/components/profile/VisitsChart';
 import PostsList from '@/components/profile/PostsList';
 import TrafficSource from '@/components/profile/TrafficSource';
+import { useProfile } from '@/apis';
 
 // 년도별 활동 데이터 (실제로는 API에서 가져올 데이터)
 const mockDataByYear: Record<number, { date: string; count: number }[]> = {
@@ -62,6 +63,17 @@ export default function MyProfilePage() {
   const router = useRouter();
   const [selectedYear, setSelectedYear] = useState<number>(new Date().getFullYear());
 
+  // 내 프로필 정보 (/users/profile)
+  const { data: profileRes, isLoading, error } = useProfile();
+  const profile = profileRes?.data;
+
+  // 새로고침 시 요청 완료되면 항상 한 번 출력
+  useEffect(() => {
+    if (!isLoading) {
+      console.log('GET /users/profile (in /profile)', { data: profileRes?.data, error });
+    }
+  }, [isLoading, profileRes, error]);
+
   const currentData = mockDataByYear[selectedYear] || [];
   const totalPubls = currentData.reduce((sum, item) => sum + item.count, 0);
 
@@ -85,6 +97,16 @@ export default function MyProfilePage() {
     joinedAt: '2021-07-01',
     followersCount: 128,
     followingCount: 85,
+  };
+
+  // API 데이터로 덮어쓰기 (없으면 기존 mock 유지)
+  const effectiveProfile = {
+    ...myProfile,
+    id: profile?.id ?? myProfile.id,
+    username: profile?.username ?? myProfile.username,
+    email: profile?.email ?? myProfile.email,
+    avatar: profile?.profile_img ?? myProfile.avatar,
+    joinedAt: profile?.created_at?.slice(0, 10) ?? myProfile.joinedAt,
   };
 
   // 임시 통계 데이터
@@ -367,9 +389,9 @@ export default function MyProfilePage() {
     <Box w="100%" h="100%">
       {/* ProfileSideHeader 컴포넌트 */}
       <ProfileSideHeader
-        username={myProfile.username}
-        bio={myProfile.bio}
-        avatar={myProfile.avatar}
+        username={effectiveProfile.username}
+        bio={effectiveProfile.bio}
+        avatar={effectiveProfile.avatar}
         isMyProfile={true}
         onEditProfile={handleEditProfile}
         showBackButton={true}

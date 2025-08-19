@@ -17,7 +17,8 @@ export interface PubbleSettingsModalProps {
   onClose: () => void;
   onPublish?: (settings: {
     type: 'scroll' | 'ebook';
-    tags: string[];
+    tags: string[]; // 태그 ID들의 리스트 (공백 구분)
+    categoryId?: string; // 카테고리 ID (임시 입력)
     visibility: 'public' | 'private';
     password?: string;
     adultOnly: boolean;

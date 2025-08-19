@@ -2,18 +2,15 @@ import { useApiQuery, useApiMutation, useApiInfinite } from '@/hooks/useApi';
 import { Post } from '@/types';
 
 // Pubble 관련 타입
-export interface CreatePubbleData {
+// POST /pubbles 요청 바디 스펙
+export interface CreatePubbleRequest {
   title: string;
-  subtitle?: string;
   content: string;
-  tags: string[];
-  visibility: 'public' | 'private';
-  adultOnly: boolean;
-  password?: string;
-  type: 'scroll' | 'ebook';
+  pubbleCategory: { id: string };
+  pubblesTags: { id: string }[];
 }
 
-export interface UpdatePubbleData extends Partial<CreatePubbleData> {
+export interface UpdatePubbleData extends Partial<CreatePubbleRequest> {
   id: string;
 }
 
@@ -27,14 +24,41 @@ export interface PubbleListResponse {
   };
 }
 
-export interface PubbleDetailResponse {
-  post: Post;
+// POST /pubbles 성공 응답 스펙
+export interface CreatePubbleResponse {
+  success: boolean;
+  code: number;
+  message: string;
+  data: {
+    id: string;
+    title: string;
+    content: string;
+    pubbleCategory: { id: string };
+    pubblesTags: { id: string }[];
+    author: {
+      id: string;
+      username: string;
+      email: string;
+      profile_img: string | null;
+      created_at: string;
+    };
+    created_at: string;
+    updated_at: string;
+    deleted_at: string | null;
+  };
 }
 
 // Pubble API 함수들
 export const pubbleApi = {
-  // 퍼블 목록 조회
-  getPubbles: () => '/pubbles',
+  // 퍼블 목록 조회 (쿼리 파라미터 지원)
+  getPubbles: (params?: { source?: string; page?: number; limit?: number }) => {
+    const q = new URLSearchParams();
+    if (params?.source) q.set('source', params.source);
+    if (typeof params?.page === 'number') q.set('page', String(params.page));
+    if (typeof params?.limit === 'number') q.set('limit', String(params.limit));
+    const qs = q.toString();
+    return `/pubbles${qs ? `?${qs}` : ''}`;
+  },
 
   // 퍼블 상세 조회
   getPubble: (id: string) => `/pubbles/${id}`,
@@ -50,20 +74,21 @@ export const pubbleApi = {
 };
 
 // Pubble Hooks
-export function usePubbles() {
-  return useApiQuery<PubbleListResponse>(['pubbles'], '/pubbles');
+export function usePubbles(params?: { source?: string; page?: number; limit?: number }) {
+  const path = pubbleApi.getPubbles(params);
+  return useApiQuery<PubbleListResponse>(['pubbles', params], path);
 }
 
 export function usePubble(id: string) {
-  return useApiQuery<PubbleDetailResponse>(['pubbles', id], `/pubbles/${id}`);
+  return useApiQuery<Post>(['pubbles', id], `/pubbles/${id}`);
 }
 
 export function useCreatePubble() {
-  return useApiMutation<CreatePubbleData, PubbleDetailResponse>('/pubbles', 'POST');
+  return useApiMutation<CreatePubbleRequest, CreatePubbleResponse>('/pubbles', 'POST');
 }
 
 export function useUpdatePubble() {
-  return useApiMutation<UpdatePubbleData, PubbleDetailResponse>('/pubbles', 'PATCH');
+  return useApiMutation<UpdatePubbleData, Post>('/pubbles', 'PATCH');
 }
 
 export function useDeletePubble() {

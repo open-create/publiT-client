@@ -4,13 +4,14 @@ import { useState } from 'react';
 import { Box, HStack, VStack, Text, Textarea, Switch, Icon } from '@chakra-ui/react';
 import Modal from '@/components/ui/Modal';
 import Button from '@/components/ui/Button';
-import { Input } from '@/components/ui';
+import { Input, Select } from '@/components/ui';
 import { Lock } from 'lucide-react';
 
 type PublishType = 'scroll' | 'ebook';
 type Visibility = 'public' | 'private';
 
 import { PubbleSettingsModalProps } from './types';
+import { usePubbleCategories } from '@/apis';
 
 export default function PubbleSettingsModal({
   isOpen,
@@ -22,6 +23,14 @@ export default function PubbleSettingsModal({
   const [visibility, setVisibility] = useState<Visibility>('public');
   const [password, setPassword] = useState('');
   const [adultOnly, setAdultOnly] = useState(false);
+  const [categoryId, setCategoryId] = useState('');
+
+  // 카테고리 목록 로드 → 사용자는 이름을 선택하고, 우리는 id를 전달
+  const { data: categoriesRes } = usePubbleCategories();
+  const categoryOptions = (categoriesRes?.categories ?? []).map((c) => ({
+    label: c.name,
+    value: c.id,
+  }));
 
   const handlePublish = () => {
     const tags = tagsText
@@ -31,6 +40,7 @@ export default function PubbleSettingsModal({
     onPublish?.({
       type,
       tags,
+      categoryId: categoryId || undefined,
       visibility,
       password: visibility === 'private' ? password : undefined,
       adultOnly,
@@ -72,6 +82,17 @@ export default function PubbleSettingsModal({
             minH="6rem"
             bg="gray.100"
             borderColor="gray.200"
+          />
+        </VStack>
+
+        {/* 카테고리 선택 */}
+        <VStack align="stretch" gap={2}>
+          <Text fontWeight="medium">카테고리</Text>
+          <Select
+            options={categoryOptions}
+            value={categoryId}
+            onChange={(v) => setCategoryId(v)}
+            placeholder="카테고리를 선택하세요"
           />
         </VStack>
 

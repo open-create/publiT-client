@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useRef } from 'react';
-import { Box, Flex, Portal, Text, Icon, HStack, BoxProps } from '@chakra-ui/react';
+import { Box, Flex, Portal, Text, Icon, HStack } from '@chakra-ui/react';
 import Button from '@/components/ui/Button';
 import { X, ChevronRight } from 'lucide-react';
 
@@ -54,7 +54,10 @@ export default function Modal({
       }
     };
     document.addEventListener('click', handleClick, { capture: true });
-    return () => document.removeEventListener('click', handleClick, { capture: true } as any);
+    return () =>
+      document.removeEventListener('click', handleClick, {
+        capture: true,
+      } as AddEventListenerOptions);
   }, [isOpen, withOverlay, closeOnOutsideClick, onClose]);
 
   if (!isOpen) return null;
@@ -101,7 +104,7 @@ export default function Modal({
                 <Text id="ui-modal-title" fontSize="md" fontWeight="medium">
                   {title}
                 </Text>
-                {showTitleAction && (
+                {showTitleAction && onTitleAction && (
                   <Button
                     variant="ghost"
                     size="xs"
@@ -194,7 +197,7 @@ export default function Modal({
                     <Text id="ui-modal-title" fontSize="lg" fontWeight="medium">
                       {title}
                     </Text>
-                    {showTitleAction && (
+                    {showTitleAction && onTitleAction && (
                       <Button
                         variant="ghost"
                         size="xs"

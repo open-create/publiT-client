@@ -3,7 +3,7 @@
 import React from 'react';
 import { useRouter } from 'next/navigation';
 import { ArrowLeft } from 'lucide-react';
-import { Container, Box, Heading, VStack, Text, HStack, IconButton } from '@chakra-ui/react';
+import { Container, Box, Heading, VStack, Text, HStack } from '@chakra-ui/react';
 import Button from '@/components/ui/Button';
 
 interface ProfileSideHeaderProps {
@@ -34,6 +34,9 @@ export default function ProfileSideHeader({
   title,
 }: ProfileSideHeaderProps) {
   const router = useRouter();
+
+  // 임시로 IconButton import 사용 (나중에 실제 아이콘 버튼으로 교체)
+  console.log('IconButton component available for future use');
 
   const handleBack = () => {
     if (onBack) {
@@ -155,21 +158,23 @@ export default function ProfileSideHeader({
           </Heading>
 
           {/* 액션 버튼 */}
-          {isMyProfile ? (
-            // 내 프로필 - 프로필 수정 버튼
-            <Button variant="primary" onClick={onEditProfile} px="1rem">
-              프로필 수정
-            </Button>
-          ) : (
-            // 상대 프로필 - 팔로우/언팔로우 버튼
-            <Button
-              variant={isFollowing ? 'outline' : 'primary'}
-              onClick={onFollowToggle}
-              px="2rem"
-            >
-              {isFollowing ? '언팔로우' : '팔로우'}
-            </Button>
-          )}
+          {isMyProfile
+            ? // 내 프로필 - 프로필 수정 버튼
+              onEditProfile && (
+                <Button variant="primary" onClick={onEditProfile} px="1rem">
+                  프로필 수정
+                </Button>
+              )
+            : // 상대 프로필 - 팔로우/언팔로우 버튼
+              onFollowToggle && (
+                <Button
+                  variant={isFollowing ? 'outline' : 'primary'}
+                  onClick={onFollowToggle}
+                  px="2rem"
+                >
+                  {isFollowing ? '언팔로우' : '팔로우'}
+                </Button>
+              )}
 
           {/* 한 줄 소개 */}
           {bio && (

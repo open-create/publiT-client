@@ -37,7 +37,7 @@ export default function WithdrawalPage() {
       views: 1250,
       likes: 89,
       comments: 23,
-      thumbnail: undefined,
+      thumbnail: '',
     },
     {
       id: '2',
@@ -47,7 +47,7 @@ export default function WithdrawalPage() {
       views: 980,
       likes: 67,
       comments: 15,
-      thumbnail: undefined,
+      thumbnail: '',
     },
     {
       id: '3',
@@ -57,7 +57,7 @@ export default function WithdrawalPage() {
       views: 1580,
       likes: 124,
       comments: 34,
-      thumbnail: undefined,
+      thumbnail: '',
     },
     {
       id: '4',
@@ -67,13 +67,13 @@ export default function WithdrawalPage() {
       views: 756,
       likes: 45,
       comments: 12,
-      thumbnail: undefined,
+      thumbnail: '',
     },
   ]);
 
   // 권한 체크 (페이지 로드 시)
   useEffect(() => {
-    const checkAuth = async () => {
+    const checkAuth = () => {
       try {
         // 실제 앱에서는 여기서 로그인 상태 및 권한 체크
         // const user = await getCurrentUser();
@@ -92,14 +92,14 @@ export default function WithdrawalPage() {
           type: 'error',
           duration: 3000,
         });
-        router.push('/auth');
+        void router.push('/auth');
       }
     };
 
     checkAuth();
   }, [router]);
 
-  const handleDeleteProfile = async () => {
+  const handleDeleteProfile = () => {
     try {
       // 실제 앱에서는 여기서 API 호출
       // await deleteProfile();
@@ -112,7 +112,7 @@ export default function WithdrawalPage() {
       });
 
       // 로그인 페이지로 이동
-      router.push('/auth');
+      void router.push('/auth');
     } catch (error) {
       toaster.create({
         title: '계정 탈퇴에 실패했습니다.',
@@ -122,6 +122,7 @@ export default function WithdrawalPage() {
       });
       throw error; // ProfileDeleteButton에서 에러 핸들링
     }
+    return Promise.resolve();
   };
 
   // 권한 체크 중 로딩

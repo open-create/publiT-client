@@ -75,7 +75,7 @@ export default function ProfileDeleteButton({
             </Button>
             <Button
               variant="danger"
-              onClick={handleDelete}
+              onClick={() => void handleDelete()}
               disabled={!isConfirmValid}
               loading={isDeleting}
               loadingText="삭제 중..."

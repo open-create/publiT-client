@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { Box, VStack, HStack, Text, Heading, Grid } from '@chakra-ui/react';
-import { TrendingUp, Users, Share2, Search, ExternalLink, ChevronRight } from 'lucide-react';
+import { ChevronRight } from 'lucide-react';
 
 interface TrafficSourceData {
   name: string;
@@ -21,24 +21,6 @@ interface TrafficSourceProps {
   data: TrafficSourceData[];
   totalCount?: number;
 }
-
-// 아이콘 매핑
-const getIcon = (iconType?: string) => {
-  switch (iconType) {
-    case 'trending':
-      return <TrendingUp size={16} color="#3182ce" />;
-    case 'users':
-      return <Users size={16} color="#3182ce" />;
-    case 'share':
-      return <Share2 size={16} color="#3182ce" />;
-    case 'search':
-      return <Search size={16} color="#3182ce" />;
-    case 'external':
-      return <ExternalLink size={16} color="#3182ce" />;
-    default:
-      return <ExternalLink size={16} color="#3182ce" />;
-  }
-};
 
 export default function TrafficSource({ title, data, totalCount }: TrafficSourceProps) {
   const [selectedItem, setSelectedItem] = useState<number | null>(0);
@@ -102,30 +84,35 @@ export default function TrafficSource({ title, data, totalCount }: TrafficSource
             }}
           >
             <VStack align="start" gap="0.75rem" w="100%">
-              {data.map((item, index) => (
-                <Box
-                  key={index}
-                  w="100%"
-                  p="0.75rem"
-                  bg="blue.50"
-                  borderRadius="md"
-                  cursor={item.details && item.details.length > 0 ? 'pointer' : 'default'}
-                  onClick={() => item.details && item.details.length > 0 && setSelectedItem(index)}
-                  _hover={item.details && item.details.length > 0 ? { bg: 'blue.100' } : {}}
-                  transition="background-color 0.2s"
-                  border={selectedItem === index ? '0.125rem solid' : '0.0625rem solid'}
-                  borderColor={selectedItem === index ? 'blue.300' : 'blue.200'}
-                  shadow="sm"
-                  flexShrink={0}
-                >
-                  <HStack justify="space-between" align="center" w="100%">
-                    <Text fontSize="sm" color="gray.700" fontWeight="medium">
-                      {item.name}
-                    </Text>
-                    <ChevronRight size={16} color="#3182ce" />
-                  </HStack>
-                </Box>
-              ))}
+              {data.map((item, index) => {
+                const itemId = `traffic-${index}`;
+                return (
+                  <Box
+                    key={itemId}
+                    w="100%"
+                    p="0.75rem"
+                    bg="blue.50"
+                    borderRadius="md"
+                    cursor={item.details && item.details.length > 0 ? 'pointer' : 'default'}
+                    onClick={() =>
+                      item.details && item.details.length > 0 && setSelectedItem(index)
+                    }
+                    _hover={item.details && item.details.length > 0 ? { bg: 'blue.100' } : {}}
+                    transition="background-color 0.2s"
+                    border={selectedItem === index ? '0.125rem solid' : '0.0625rem solid'}
+                    borderColor={selectedItem === index ? 'blue.300' : 'blue.200'}
+                    shadow="sm"
+                    flexShrink={0}
+                  >
+                    <HStack justify="space-between" align="center" w="100%">
+                      <Text fontSize="sm" color="gray.700" fontWeight="medium">
+                        {item.name}
+                      </Text>
+                      <ChevronRight size={16} color="#3182ce" />
+                    </HStack>
+                  </Box>
+                );
+              })}
             </VStack>
           </Box>
         </VStack>
@@ -161,54 +148,57 @@ export default function TrafficSource({ title, data, totalCount }: TrafficSource
           >
             {selectedDetails && selectedDetails.length > 0 ? (
               <VStack align="start" gap="0.5rem" w="100%">
-                {selectedDetails.map((detail, detailIndex) => (
-                  <Box
-                    key={detailIndex}
-                    w="85%"
-                    p="0.75rem"
-                    bg="blue.50"
-                    borderRadius="md"
-                    border="0.0625rem solid"
-                    borderColor="blue.200"
-                    shadow="sm"
-                    flexShrink={0}
-                  >
-                    <VStack align="start" gap="0.25rem" w="100%">
-                      <Text fontSize="sm" color="blue.700" fontWeight="medium">
-                        {detail.title}
-                      </Text>
-                      <Box w="100%" overflow="hidden">
-                        <a
-                          href={detail.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          style={{
-                            fontSize: '0.75rem',
-                            color: '#3182ce',
-                            textDecoration: 'underline',
-                            cursor: 'pointer',
-                            whiteSpace: 'nowrap',
-                            overflow: 'hidden',
-                            textOverflow: 'ellipsis',
-                            display: 'block',
-                            width: '100%',
-                          }}
-                          onMouseEnter={(e) => {
-                            e.currentTarget.style.color = '#2c5282';
-                          }}
-                          onMouseLeave={(e) => {
-                            e.currentTarget.style.color = '#3182ce';
-                          }}
-                        >
-                          {detail.url}
-                        </a>
-                      </Box>
-                      <Text fontSize="xs" color="blue.700" fontWeight="medium" mt="0.25rem">
-                        방문자: {detail.visits.toLocaleString()}명
-                      </Text>
-                    </VStack>
-                  </Box>
-                ))}
+                {selectedDetails.map((detail, detailIndex) => {
+                  const detailId = `detail-${detailIndex}`;
+                  return (
+                    <Box
+                      key={detailId}
+                      w="85%"
+                      p="0.75rem"
+                      bg="blue.50"
+                      borderRadius="md"
+                      border="0.0625rem solid"
+                      borderColor="blue.200"
+                      shadow="sm"
+                      flexShrink={0}
+                    >
+                      <VStack align="start" gap="0.25rem" w="100%">
+                        <Text fontSize="sm" color="blue.700" fontWeight="medium">
+                          {detail.title}
+                        </Text>
+                        <Box w="100%" overflow="hidden">
+                          <a
+                            href={detail.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style={{
+                              fontSize: '0.75rem',
+                              color: '#3182ce',
+                              textDecoration: 'underline',
+                              cursor: 'pointer',
+                              whiteSpace: 'nowrap',
+                              overflow: 'hidden',
+                              textOverflow: 'ellipsis',
+                              display: 'block',
+                              width: '100%',
+                            }}
+                            onMouseEnter={(e) => {
+                              e.currentTarget.style.color = '#2c5282';
+                            }}
+                            onMouseLeave={(e) => {
+                              e.currentTarget.style.color = '#3182ce';
+                            }}
+                          >
+                            {detail.url}
+                          </a>
+                        </Box>
+                        <Text fontSize="xs" color="blue.700" fontWeight="medium" mt="0.25rem">
+                          방문자: {detail.visits.toLocaleString()}명
+                        </Text>
+                      </VStack>
+                    </Box>
+                  );
+                })}
               </VStack>
             ) : (
               <Box

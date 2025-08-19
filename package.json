@@ -46,6 +46,7 @@
     "@types/react-responsive": "^8.0.8",
     "eslint": "^9",
     "eslint-config-next": "15.4.5",
+    "prettier": "^3.6.2",
     "typescript": "^5"
   }
 }

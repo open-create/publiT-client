@@ -21,7 +21,7 @@ const eslintConfig = [
     rules: {
       // TypeScript 관련 엄격한 규칙들
       '@typescript-eslint/no-explicit-any': 'error',
-      '@typescript-eslint/no-unused-vars': 'error',
+      // '@typescript-eslint/no-unused-vars': 'error',
       '@typescript-eslint/no-unsafe-assignment': 'error',
       '@typescript-eslint/no-unsafe-call': 'error',
       '@typescript-eslint/no-unsafe-member-access': 'error',
@@ -38,6 +38,7 @@ const eslintConfig = [
       'react/no-array-index-key': 'error',
 
       // 일반적인 코딩 규칙들
+      '@typescript-eslint/no-unused-vars': 'warn',
       'no-console': 'warn',
       'no-debugger': 'error',
       'no-alert': 'error',

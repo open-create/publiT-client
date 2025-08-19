@@ -1,6 +1,5 @@
 'use client';
 
-import React from 'react';
 import Image from 'next/image';
 import { VStack, Box, Text, HStack, Badge } from '@chakra-ui/react';
 import Button from '@/components/ui/Button';

@@ -1,6 +1,5 @@
 'use client';
 
-import React from 'react';
 import ImageUploader from '@/components/ui/ImageUploader';
 
 interface ProfileImageEditorProps {
@@ -17,7 +16,7 @@ export default function ProfileImageEditor({
   return (
     <ImageUploader
       type="profile"
-      currentImage={currentImage}
+      currentImage={currentImage ?? null}
       username={username}
       onImageChange={onImageChange}
       maxSize={5}

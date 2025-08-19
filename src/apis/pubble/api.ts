@@ -14,7 +14,7 @@ export interface UpdatePubbleData extends Partial<CreatePubbleRequest> {
   id: string;
 }
 
-export interface PubbleListResponse {
+export interface PubbleListResponse extends Record<string, unknown> {
   posts: Post[];
   pagination: {
     page: number;

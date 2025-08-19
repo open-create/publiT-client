@@ -1,6 +1,5 @@
 'use client';
 
-import React from 'react';
 import { VStack, HStack, Heading } from '@chakra-ui/react';
 import DataTable from '@/components/admin/DataTable';
 

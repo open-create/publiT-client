@@ -44,7 +44,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <body>
         <Provider>
           <div style={{ height: '100dvh', display: 'flex', flexDirection: 'column' }}>
-            <HeaderShell isLoggedIn={isLoggedIn} role={role} />
+            <HeaderShell isLoggedIn={isLoggedIn} {...(role && { role })} />
             <main
               style={{
                 flex: '1 1 auto',

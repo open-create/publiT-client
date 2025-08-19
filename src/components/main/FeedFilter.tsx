@@ -19,14 +19,16 @@ const OPTIONS: { key: Filter; label: string }[] = [
 
 export default function FeedFilter({ value, onChange }: Props) {
   const handleKey = useCallback(
-    (e: React.KeyboardEvent<HTMLElement>, idx: number) => {
+    (e: React.KeyboardEvent<HTMLDivElement>, idx: number) => {
       if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
       e.preventDefault();
       const nextIdx =
         e.key === 'ArrowRight'
           ? (idx + 1) % OPTIONS.length
           : (idx - 1 + OPTIONS.length) % OPTIONS.length;
-      onChange(OPTIONS[nextIdx].key);
+      if (OPTIONS[nextIdx]) {
+        onChange(OPTIONS[nextIdx].key);
+      }
     },
     [onChange]
   );
@@ -37,7 +39,7 @@ export default function FeedFilter({ value, onChange }: Props) {
         <HStack key={opt.key} gap="6">
           <Button
             onClick={() => onChange(opt.key)}
-            onKeyDown={(e) => handleKey(e, i)}
+            onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => handleKey(e, i)}
             aria-pressed={value === opt.key}
             variant="ghost"
             p={0}

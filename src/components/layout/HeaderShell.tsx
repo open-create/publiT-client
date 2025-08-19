@@ -11,7 +11,11 @@ interface Props {
 
 export default function HeaderShell({ isLoggedIn, role }: Props) {
   const pathname = usePathname();
-  const variant = determineHeaderVariant({ pathname, isLoggedIn, role });
+  const variant = determineHeaderVariant({
+    pathname,
+    isLoggedIn,
+    ...(role ? { role } : {}),
+  });
 
   console.log('현재 pathname:', pathname);
 

@@ -1,6 +1,5 @@
 'use client';
 
-import React from 'react';
 import { useRouter } from 'next/navigation';
 import { ArrowLeft } from 'lucide-react';
 import { Container, Box, Heading, VStack, Text, HStack } from '@chakra-ui/react';

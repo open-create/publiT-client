@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+
 import { VStack, HStack, Heading } from '@chakra-ui/react';
 import NoticeForm from '@/components/admin/NoticeForm';
 

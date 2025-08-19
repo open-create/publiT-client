@@ -35,7 +35,7 @@ export function useApiMutation<TInput = unknown, TData = unknown, TError = ApiEr
 }
 
 // 무한 스크롤
-export function useApiInfinite<TPage = Record<string, unknown>>(
+export function useApiInfinite<TPage extends Record<string, unknown> = Record<string, unknown>>(
   path: string,
   pageParamKey = 'page',
   opts?: { initialPageParam?: number }

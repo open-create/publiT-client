@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { Box, Grid, GridItem, Text, Heading, HStack } from '@chakra-ui/react';
 
 interface Post {

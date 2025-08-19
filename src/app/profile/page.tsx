@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Container, Box, Heading, VStack, Grid, GridItem } from '@chakra-ui/react';
 import ContributionGrid from '@/components/profile/ContributionGrid';

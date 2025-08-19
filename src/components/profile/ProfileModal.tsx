@@ -1,6 +1,5 @@
 'use client';
 
-import React from 'react';
 import { Box, HStack, VStack, Text, Icon } from '@chakra-ui/react';
 import { LogOut, Settings, ChevronRight } from 'lucide-react';
 import { formatRelativeTime } from '@/utils/formatDate';
@@ -68,7 +67,7 @@ export default function ProfileModal({
               h="auto"
               color="gray.500"
               _hover={{ color: 'gray.700', bg: 'transparent' }}
-              onClick={onEditProfile}
+              onClick={onEditProfile ?? (() => {})}
             >
               프로필 수정
             </Button>
@@ -164,7 +163,7 @@ export default function ProfileModal({
         <Button
           variant="ghost"
           size="xs"
-          onClick={onLogout}
+          onClick={onLogout ?? (() => {})}
           color="gray.500"
           bg="transparent"
           _hover={{ color: 'gray.700', bg: 'transparent' }}
@@ -179,7 +178,7 @@ export default function ProfileModal({
         <Button
           variant="ghost"
           size="sm"
-          onClick={onOpenSettings}
+          onClick={onOpenSettings ?? (() => {})}
           color="gray.600"
           bg="transparent"
           _hover={{ color: 'gray.500', bg: 'transparent' }}

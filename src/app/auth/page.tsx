@@ -1,6 +1,5 @@
 'use client';
 
-import React from 'react';
 import { Container, Flex, Heading, Box, Text, Spinner, Center } from '@chakra-ui/react';
 import { LoginForm, AutoLoginCheckbox } from '@/components/auth';
 import { useAuthRedirect } from '@/apis/auth';

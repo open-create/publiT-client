@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Box, VStack, HStack, Text, Heading, Grid } from '@chakra-ui/react';
 import { ChevronRight } from 'lucide-react';
 

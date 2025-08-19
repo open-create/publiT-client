@@ -1,6 +1,5 @@
 'use client';
 
-import React from 'react';
 import { useRouter } from 'next/navigation';
 import { Box, HStack, VStack, Text } from '@chakra-ui/react';
 import { formatRelativeTime } from '@/utils/formatDate';
@@ -46,7 +45,7 @@ export default function NotificationModal({
       size="md"
       containerProps={{ w: width, position: 'relative' }}
       title="알림"
-      showTitleAction={showTitleAction}
+      {...(showTitleAction && { showTitleAction })}
       onTitleAction={onTitleAction ?? (() => router.push('/notifications'))}
       showCloseButton={false}
       closeOnOutsideClick

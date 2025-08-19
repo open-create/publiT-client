@@ -13,10 +13,13 @@ const ACTIVITY_THRESHOLDS = [0, 1, 3, 6, 10] as const;
 // 활동 수에 따른 색상 반환 (이진 탐색으로 최적화)
 // O(log n) 시간 복잡도
 export function getActivityColor(count: number = 0): string {
-  if (count <= 0) return ACTIVITY_COLORS[0];
-  if (count >= ACTIVITY_THRESHOLDS[ACTIVITY_THRESHOLDS.length - 1]) {
-    return ACTIVITY_COLORS[ACTIVITY_COLORS.length - 1];
-  }
+  if (!ACTIVITY_THRESHOLDS.length || !ACTIVITY_COLORS.length) return 'gray';
+
+  const lastThreshold = ACTIVITY_THRESHOLDS[ACTIVITY_THRESHOLDS.length - 1]!;
+  const lastColor = ACTIVITY_COLORS[ACTIVITY_COLORS.length - 1] ?? 'gray';
+
+  if (count <= 0) return ACTIVITY_COLORS[0] ?? 'gray';
+  if (count >= lastThreshold) return lastColor;
 
   // 이진 탐색으로 적절한 색상 인덱스 찾기
   let left = 0;
@@ -24,14 +27,15 @@ export function getActivityColor(count: number = 0): string {
 
   while (left < right) {
     const mid = Math.floor((left + right + 1) / 2);
-    if (count >= ACTIVITY_THRESHOLDS[mid]) {
+    const threshold = ACTIVITY_THRESHOLDS[mid]!;
+    if (count >= threshold) {
       left = mid;
     } else {
       right = mid - 1;
     }
   }
 
-  return ACTIVITY_COLORS[left];
+  return ACTIVITY_COLORS[left] ?? 'gray';
 }
 
 // 범례용 색상 배열 반환 (불변 배열로 최적화)

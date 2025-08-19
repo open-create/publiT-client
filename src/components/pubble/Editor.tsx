@@ -23,6 +23,7 @@ import ToolBar from './ToolBar';
 import PubbleHeader from './PubbleHeader';
 import PubbleSettingsModal from './PubbleSettingsModal';
 import SmartReviewModal from './SmartReviewModal';
+import { useCreatePubble } from '@/apis';
 
 export default function Editor() {
   const [charCount, setCharCount] = useState(0);
@@ -32,6 +33,9 @@ export default function Editor() {
   const [subtitle, setSubtitle] = useState('');
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
   const [isSmartReviewModalOpen, setIsSmartReviewModalOpen] = useState(false);
+
+  // 퍼블 생성 API 훅
+  const createPubble = useCreatePubble();
 
   // 1) useEditor로 에디터 인스턴스 생성
   const editor = useEditor({
@@ -63,7 +67,7 @@ export default function Editor() {
     },
   });
 
-  console.log('editor', editor);
+  // console.log('editor', editor);
 
   return (
     <Box>
@@ -131,9 +135,48 @@ export default function Editor() {
         isOpen={isSettingsModalOpen}
         onClose={() => setIsSettingsModalOpen(false)}
         onPublish={(settings) => {
-          console.log('발행 설정:', settings);
-          // TODO: 실제 발행 로직 구현
-          setIsSettingsModalOpen(false);
+          const uuidRe =
+            /^(?:[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$/;
+
+          // 카테고리 ID 유효성 체크
+          const categoryId = settings.categoryId?.trim();
+          if (!categoryId || !uuidRe.test(categoryId)) {
+            alert('카테고리 ID가 필요합니다. 유효한 UUID를 입력해주세요.');
+            return;
+          }
+
+          // 태그는 UUID 형태만 전송 (그 외는 무시)
+          const tags = (settings.tags || [])
+            .map((raw) => raw.trim())
+            .filter((t) => uuidRe.test(t))
+            .map((id) => ({ id }));
+
+          const payload = {
+            title: title || '제목 없는 글',
+            content: editor?.getHTML() || '',
+            pubbleCategory: { id: categoryId },
+            pubblesTags: tags,
+          };
+
+          console.log('[pubbles] create payload', payload);
+
+          createPubble.mutate(payload as any, {
+            onSuccess: (res) => {
+              console.log('[pubbles] create success', res);
+              if (typeof window !== 'undefined') {
+                alert('발행이 완료되었습니다.');
+              }
+              setIsSettingsModalOpen(false);
+            },
+            onError: (err) => {
+              console.error('[pubbles] create error', err);
+              const msg =
+                (err as any)?.data?.message ?? (err as any)?.message ?? '발행에 실패했습니다.';
+              if (typeof window !== 'undefined') {
+                alert(`발행 실패: ${msg}`);
+              }
+            },
+          });
         }}
       />
 

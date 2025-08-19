@@ -7,8 +7,15 @@ import Button from '@/components/ui/Button';
 import { InquiryDetailPageProps } from '../../types';
 
 export default function InquiryDetailPage({ params }: InquiryDetailPageProps) {
-  const { id } = params;
+  const [id, setId] = useState<string>('');
   const [answer, setAnswer] = useState('');
+
+  // params를 Promise로 처리
+  React.useEffect(() => {
+    params.then((resolvedParams) => {
+      setId(resolvedParams.id);
+    });
+  }, [params]);
 
   const handleSubmitAnswer = () => {
     console.log('Submit answer:', answer);

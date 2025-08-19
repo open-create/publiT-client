@@ -18,9 +18,9 @@ export default function Provider(props: { children: React.ReactNode }) {
       <ChakraProvider value={system}>
         <ThemeProvider attribute="class" disableTransitionOnChange>
           {props.children}
+          {ReactQueryDevtools && <ReactQueryDevtools initialIsOpen={false} />}
         </ThemeProvider>
       </ChakraProvider>
-      {ReactQueryDevtools && <ReactQueryDevtools initialIsOpen={false} />}
     </QueryClientProvider>
   );
 }

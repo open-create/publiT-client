@@ -1,20 +1,20 @@
 // ReportDetailPage Props
 export interface ReportDetailPageProps {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
 // InquiryDetailPage Props
 export interface InquiryDetailPageProps {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
 // NoticeDetailPage Props
 export interface NoticeDetailPageProps {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }

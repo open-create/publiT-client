@@ -132,22 +132,22 @@ export default function ContributionGrid({
       const today = new Date();
       const startDate = parseDate(actualStartDate);
 
-      console.log('=== 스크롤 위치 계산 디버그 ===');
-      console.log('오늘 날짜:', today.toLocaleDateString());
-      console.log('시작 날짜:', actualStartDate);
-      console.log('현재 연도:', currentYear);
-      console.log('실제 현재 연도:', realCurrentYear);
+      // console.log('=== 스크롤 위치 계산 디버그 ===');
+      // console.log('오늘 날짜:', today.toLocaleDateString());
+      // console.log('시작 날짜:', actualStartDate);
+      // console.log('현재 연도:', currentYear);
+      // console.log('실제 현재 연도:', realCurrentYear);
 
       // 시작일부터 오늘까지의 주 수 계산
       const daysDiff = Math.floor((today.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));
       const weeksDiff = Math.floor(daysDiff / 7);
 
-      console.log('일수 차이:', daysDiff);
-      console.log('주수 차이:', weeksDiff);
+      // console.log('일수 차이:', daysDiff);
+      // console.log('주수 차이:', weeksDiff);
 
       // 스크롤을 맨 끝으로 이동 (현재 날짜가 맨 오른쪽에 보이도록)
-      console.log('스크롤을 맨 끝으로 이동');
-      console.log('================================');
+      // console.log('스크롤을 맨 끝으로 이동');
+      // console.log('================================');
 
       // 즉시 스크롤 적용 + requestAnimationFrame으로 확실하게
       const scrollToEnd = () => {

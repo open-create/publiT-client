@@ -8,7 +8,7 @@ export async function POST(req: NextRequest) {
     if (!MODEL_API_BASE) {
       return NextResponse.json({ message: 'MODEL_API_BASE is not configured' }, { status: 500 });
     }
-    const body = await req.json();
+    const body = await req.json() as Record<string, unknown>;
     const res = await fetch(`${MODEL_API_BASE.replace(/\/$/, '')}/evaluate`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -20,7 +20,7 @@ export async function POST(req: NextRequest) {
     if (!res.ok) {
       return NextResponse.json({ message: text || res.statusText }, { status: res.status });
     }
-    const json = contentType.includes('application/json') ? JSON.parse(text) : { raw: text };
+    const json = contentType.includes('application/json') ? JSON.parse(text) as Record<string, unknown> : { raw: text };
     return NextResponse.json(json, { status: 200 });
   } catch (err) {
     return NextResponse.json({ message: 'Internal Server Error' }, { status: 500 });

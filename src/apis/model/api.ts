@@ -25,7 +25,8 @@ export interface EvaluateResponse {
 export function useEvaluateContent() {
   return useMutation<EvaluateResponse, unknown, EvaluateRequestBody>({
     mutationFn: async (body: EvaluateRequestBody) => {
-      const res = await fetch(`${MODEL_API_BASE}/evaluate`, {
+      // 프록시 라우트 사용 (환경변수는 서버에서만 사용)
+      const res = await fetch('/api/model/evaluate', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

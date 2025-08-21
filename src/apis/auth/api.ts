@@ -1,4 +1,5 @@
-import { useApiMutation } from '@/hooks/useApi';
+import { useMutation } from '@tanstack/react-query';
+import { request } from '@/lib/api';
 
 // Auth 관련 타입
 export interface LoginData {
@@ -35,5 +36,12 @@ export function redirectToSocialLogin(provider: 'google' | 'kakao' | 'naver') {
 
 // Auth Hooks
 export function useRefreshToken() {
-  return useApiMutation<void, AuthResponse>('/auth/refresh-token', 'POST');
+  // refreshToken(쿠키)을 보내야 하므로 credentials: 'include' 필수
+  return useMutation<AuthResponse, unknown, void>({
+    mutationFn: () =>
+      request<AuthResponse>('/auth/refresh-token', {
+        method: 'POST',
+        credentials: 'include',
+      }),
+  });
 }

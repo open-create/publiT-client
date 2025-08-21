@@ -2,14 +2,36 @@
 
 import { Container, Flex, Heading, Box, Text, Spinner, Center } from '@chakra-ui/react';
 import { LoginForm, AutoLoginCheckbox } from '@/components/auth';
-import { useAuthRedirect } from '@/apis/auth';
+import { useSearchParams } from 'next/navigation';
+import { useEffect, useRef } from 'react';
+import { useRefreshToken } from '@/apis/auth';
 // import { Toaster, toaster } from '@/components/ui/Toaster';
 
 export default function AuthPage() {
-  const { isRefreshing } = useAuthRedirect();
+  const searchParams = useSearchParams();
+  const loginSuccess = searchParams.get('login') === 'success';
+  const refreshTokenMutation = useRefreshToken();
+  const attemptedRef = useRef(false);
 
-  // 토큰 재발급 중일 때 로딩 표시
-  if (isRefreshing) {
+  // 소셜 인증 후 돌아온 경우에만 재발급 호출
+  useEffect(() => {
+    if (!loginSuccess || attemptedRef.current) return;
+    attemptedRef.current = true;
+    refreshTokenMutation.mutate(undefined, {
+      onSuccess: (data) => {
+        if (data?.success && data?.data) {
+          localStorage.setItem('accessToken', data.data);
+          // 홈으로 이동
+          window.location.href = '/';
+        }
+      },
+      onError: () => {
+        // 실패 시에는 그대로 로그인 화면 유지
+      },
+    });
+  }, [loginSuccess, refreshTokenMutation]);
+
+  if (loginSuccess && refreshTokenMutation.isPending) {
     return (
       <Container maxW="1920px" h="100%" display="flex" flexDirection="column">
         <Flex align="center" justify="center" flex="1" minH={0}>
@@ -21,7 +43,6 @@ export default function AuthPage() {
       </Container>
     );
   }
-
   return (
     <Container maxW="1920px" h="100%" display="flex" flexDirection="column">
       <Flex align="center" justify="center" flex="1" minH={0}>

@@ -1,42 +1,40 @@
 import { useEffect, useRef } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useRefreshToken } from './api';
 
 // 로그인 후 토큰 재발급 및 리다이렉트 처리
 export function useAuthRedirect() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const refreshTokenMutation = useRefreshToken();
   const attemptedRef = useRef(false);
 
-  // 스피너 노출은 소셜 로그인 콜백으로 돌아왔을 때만
-  const showSpinnerByParam =
-    typeof window !== 'undefined' &&
-    new URLSearchParams(window.location.search).get('login') === 'success';
+  // 소셜 인증 성공 후에만 동작 (login=success)
+  const loginSuccess = searchParams?.get('login') === 'success';
 
   useEffect(() => {
-    if (attemptedRef.current) return;
+    if (!loginSuccess || attemptedRef.current) return;
     attemptedRef.current = true;
-
-    // 토큰 재발급 요청 (쿠키 기반) — 항상 1회 시도
+    // refreshToken(쿠키)로 accessToken 재발급
     refreshTokenMutation.mutate(undefined, {
       onSuccess: (data) => {
-        // console.log('[auth] refresh-token success:', data, new Date().toISOString());
         if (data?.success && data?.data) {
-          // accessToken 저장
           localStorage.setItem('accessToken', data.data);
-          // 콜백으로 들어온 경우엔 홈으로 이동
-          if (showSpinnerByParam) router.replace('/');
+          // URL 정리 후 홈으로 이동
+          const url = new URL(window.location.href);
+          url.searchParams.delete('login');
+          window.history.replaceState({}, '', url.toString());
+          router.replace('/');
         }
       },
       onError: () => {
-        // console.error('[auth] refresh-token error:', error, new Date().toISOString());
-        // 실패 시에는 현재 페이지에서 로그인 버튼 노출 (리다이렉트 없음)
+        // 실패 시 그대로 로그인 화면 유지
       },
     });
-  }, [refreshTokenMutation, router, showSpinnerByParam]);
+  }, [loginSuccess, refreshTokenMutation, router]);
 
   return {
-    isRefreshing: showSpinnerByParam ? refreshTokenMutation.isPending : false,
+    isRefreshing: loginSuccess ? refreshTokenMutation.isPending : false,
     error: refreshTokenMutation.error,
   };
 }

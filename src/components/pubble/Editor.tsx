@@ -24,6 +24,7 @@ import ToolBar from './ToolBar';
 import PubbleHeader from './PubbleHeader';
 import PubbleSettingsModal from './PubbleSettingsModal';
 import SmartReviewModal from './SmartReviewModal';
+import { useEvaluateContent } from '@/apis/model/api';
 
 // API & error helper
 import { useCreatePubble } from '@/apis';
@@ -37,6 +38,7 @@ export default function Editor() {
   const [subtitle, setSubtitle] = useState('');
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
   const [isSmartReviewModalOpen, setIsSmartReviewModalOpen] = useState(false);
+  const evaluate = useEvaluateContent();
 
   const createPubble = useCreatePubble();
 
@@ -78,10 +80,10 @@ export default function Editor() {
           onTempSave={() => console.log('임시 저장')}
           onSmartReview={() => setIsSmartReviewModalOpen(true)}
           onQualityCheck={() => {
-            // eslint-disable-next-line no-console
-            console.log('스마트 품질 검사');
+            const html = editor?.getHTML() || '';
             setSmartQualityCheck(true);
             setIsSmartReviewModalOpen(true);
+            evaluate.mutate({ content: html });
           }}
           onPublish={() => setIsSettingsModalOpen(true)}
           onOpenSettings={() => setIsSettingsModalOpen(true)}

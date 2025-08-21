@@ -92,7 +92,7 @@ export default function Editor() {
           <ToolBar editor={editor} />
         </Box>
 
-        <Container maxW="1024px" p={10}>
+        <Container maxW="992px" p={10} mx="auto">
           {/* 3) 제목/부제목 */}
           <VStack align="stretch" gap={3}>
             <Input

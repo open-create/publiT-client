@@ -29,8 +29,8 @@ export const authApi = {
 
 // 소셜 로그인 리다이렉트 함수
 export function redirectToSocialLogin(provider: 'google' | 'kakao' | 'naver') {
-  // Next.js rewrites를 통해 백엔드로 프록시
-  window.location.href = `/auth/login-${provider}`;
+  // API 라우트를 통해 백엔드로 리다이렉트
+  window.location.href = `/api/auth/login/${provider}`;
 }
 
 // Auth Hooks

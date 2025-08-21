@@ -12,16 +12,11 @@ interface Props {
 
 export default function HeaderShell({ isLoggedIn, role }: Props) {
   const pathname = usePathname();
-  const [hasToken, setHasToken] = useState<boolean>(() => {
-    if (typeof window === 'undefined') return Boolean(isLoggedIn);
-    try {
-      return Boolean(localStorage.getItem('accessToken'));
-    } catch {
-      return Boolean(isLoggedIn);
-    }
-  });
+  const [hasToken, setHasToken] = useState<boolean>(false);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
     const sync = () => {
       try {
         setHasToken(Boolean(localStorage.getItem('accessToken')));
@@ -38,10 +33,10 @@ export default function HeaderShell({ isLoggedIn, role }: Props) {
     () =>
       determineHeaderVariant({
         pathname,
-        isLoggedIn: hasToken || isLoggedIn,
+        isLoggedIn: mounted ? hasToken : isLoggedIn,
         ...(role ? { role } : {}),
       }),
-    [pathname, hasToken, isLoggedIn, role]
+    [pathname, hasToken, isLoggedIn, role, mounted]
   );
 
   return <Header variant={variant} />;

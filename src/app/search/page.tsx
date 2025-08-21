@@ -56,8 +56,8 @@ export default function SearchPage() {
   };
 
   return (
-    <Container maxW="1200px" py={8}>
-      <VStack align="stretch" gap={8}>
+    <Container maxW="1200px" py={8} alignSelf="center">
+      <VStack w="100%" align="stretch" gap={8}>
         {/* <Box h="1rem" /> */}
         {/* 검색창 */}
         <SearchBar onSubmit={handleSearch} />

@@ -1,0 +1,17 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+echo "🔧 lint-staged: 변경 파일 자동 수정"
+npx lint-staged
+
+echo "🧹 ESLint (warning 허용, error만 막음)"
+npm run lint
+
+echo "🛡️ TypeScript 타입체크"
+npm run typecheck
+
+echo "🏗️ Next.js 빌드 사전검증"
+npm run build
+
+echo "✅ pre-commit 통과!"
+

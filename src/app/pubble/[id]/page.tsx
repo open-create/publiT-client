@@ -53,8 +53,8 @@ export default function PostDetailPage({ params }: PostDetailPageProps) {
   const showPostNavigation = authorPosts.length > 1;
 
   return (
-    <Box>
-      <VStack align="stretch" gap={0}>
+    <Box display="flex" flexDirection="column" alignItems="center">
+      <VStack align="stretch" gap={0} w="100%" alignSelf="stretch">
         <Box px="1rem" pt="0.75rem" pb="1rem">
           <HStack gap={1.5}>
             <IconButton aria-label="back" variant="ghost" onClick={() => history.back()}>
@@ -69,7 +69,7 @@ export default function PostDetailPage({ params }: PostDetailPageProps) {
         <Box w="100%" h="1px" bg="gray.200" />
       </VStack>
 
-      <Container maxW="900px" py={6}>
+      <Container w="100%" maxW="900px" py={6} mx="auto">
         <VStack align="stretch" gap={8}>
           <VStack align="start" gap={6} pt={4} pl={4}>
             <VStack align="start" gap={1.5}>

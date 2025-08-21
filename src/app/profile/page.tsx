@@ -389,7 +389,7 @@ export default function MyProfilePage() {
   ];
 
   return (
-    <Box w="100%" h="100%">
+    <Box w="100%" h="100%" display="flex" flexDirection="column" alignItems="center">
       {/* ProfileSideHeader 컴포넌트 */}
       <ProfileSideHeader
         username={effectiveProfile.username}
@@ -401,14 +401,21 @@ export default function MyProfilePage() {
       />
 
       {/* 메인 컨텐츠 영역 */}
-      <Container maxW="1200px" py={8}>
+      <Container w="100%" maxW="1200px" py={8} alignSelf="center" mx="auto">
         <VStack gap={12} align="stretch">
           {/* 활동 내역 (잔디) */}
           <Box>
             <Heading size="xl" mb={6} color="blue.600" fontWeight="medium">
               {totalPubls}개의 퍼블
             </Heading>
-            <Box border="1px solid" borderColor="gray.200" borderRadius="lg" p={6} w="fit-content">
+            <Box
+              border="1px solid"
+              borderColor="gray.200"
+              borderRadius="lg"
+              p={6}
+              w="fit-content"
+              mx="auto"
+            >
               <ContributionGrid
                 data={currentData}
                 selectedYear={selectedYear}

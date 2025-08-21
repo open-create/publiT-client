@@ -1,59 +1,36 @@
 'use client';
 
-import { useState } from 'react';
-import { Box, VStack, HStack, Text, Badge } from '@chakra-ui/react';
+import { useMemo } from 'react';
+import { Box, VStack, HStack, Text, Badge, Spinner, Center } from '@chakra-ui/react';
 import Modal from '@/components/ui/Modal';
 import Button from '@/components/ui/Button';
 
 import { SmartReviewModalProps, EvaluationItem } from './types';
+import { useEvaluateContent } from '@/apis/model/api';
 
 export default function SmartReviewModal({
   isOpen,
   onClose,
   onApplyReview,
 }: SmartReviewModalProps) {
-  // 임시로 Progress import 사용 (나중에 실제 프로그레스 바로 교체)
-  console.log('Progress component available for future use');
-  // 예시 평가 데이터
-  const [evaluations] = useState<EvaluationItem[]>([
-    {
-      category: '창의성',
-      score: 85,
-      comment: '주제 선택이 독특하며 예상치 못한 전개가 흥미롭습니다.',
-      highlightedText: '독특한 관점에서 접근한 주제와 예상치 못한 전개가 독자의 흥미를 끌어냅니다.',
-    },
-    {
-      category: '구성력',
-      score: 72,
-      comment:
-        '중간 부분에서 논리 흐름이 약간 끊기는 느낌이 있습니다. 단락 연결을 더 자연스럽게 해보세요.',
-      highlightedText: '전반적인 구조는 좋지만, 중간 부분의 논리적 연결이 다소 부족합니다.',
-    },
-    {
-      category: '문체',
-      score: 78,
-      comment: '문장이 간결하지만 일부 반복 표현이 눈에 띕니다.',
-      highlightedText:
-        '간결하고 명확한 문체를 사용하고 있으나, 일부 표현의 반복이 개선의 여지가 있습니다.',
-    },
-    {
-      category: '감정 전달',
-      score: 88,
-      comment: '독자의 공감을 잘 끌어내는 문장이 많습니다.',
-      highlightedText: '독자의 감정을 효과적으로 전달하는 문장들이 잘 구성되어 있습니다.',
-    },
-    {
-      category: '설득력',
-      score: 65,
-      comment: '주장에 대한 근거가 조금 부족합니다. 예시나 데이터를 추가하면 설득력이 올라갑니다.',
-      highlightedText:
-        '주장은 명확하지만 구체적인 근거나 예시가 부족하여 설득력을 높일 수 있습니다.',
-    },
-  ]);
+  const evaluate = useEvaluateContent();
+  const result = evaluate.data;
 
-  const totalScore = Math.round(
-    evaluations.reduce((sum, item) => sum + item.score, 0) / evaluations.length
-  );
+  const evaluations: EvaluationItem[] = useMemo(() => {
+    if (!result) return [];
+    const { scores, comments } = result;
+    return [
+      { category: '창의성', score: scores.creativity * 20, comment: comments.creativity },
+      { category: '구성력', score: scores.structure * 20, comment: comments.structure },
+      { category: '문체', score: scores.style * 20, comment: comments.style },
+      { category: '감정 전달', score: scores.emotion * 20, comment: comments.emotion },
+      { category: '설득력', score: scores.persuasion * 20, comment: comments.persuasion },
+    ];
+  }, [result]);
+
+  const totalScore = evaluations.length
+    ? Math.round(evaluations.reduce((sum, item) => sum + item.score, 0) / evaluations.length)
+    : 0;
 
   const getScoreColor = (score: number) => {
     if (score >= 80) return 'green';
@@ -70,6 +47,16 @@ export default function SmartReviewModal({
   return (
     <Modal isOpen={isOpen} onClose={onClose} title="스마트 리뷰 결과">
       <VStack align="stretch" gap={6} maxH="70vh" overflowY="auto">
+        {evaluate.isPending && (
+          <Center py={10}>
+            <Spinner />
+          </Center>
+        )}
+        {!evaluate.isPending && evaluations.length === 0 && (
+          <Box py={6} textAlign="center" color="gray.500">
+            평가 결과가 없습니다. 에디터에서 ‘품질 검사’ 버튼을 눌러 실행하세요.
+          </Box>
+        )}
         {/* 총점 섹션 */}
         <Box textAlign="center" py={4}>
           <Text fontSize="2xl" fontWeight="bold" mb={2}>

@@ -36,6 +36,10 @@ const nextConfig = {
         source: '/api/graphql',
         destination: 'http://localhost:4000/graphql',
       },
+      {
+        source: '/auth/:path*',
+        destination: `${process.env.NEXT_PUBLIC_API_BASE}/auth/:path*`,
+      },
     ];
   },
   async headers() {

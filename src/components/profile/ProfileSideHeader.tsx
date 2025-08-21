@@ -49,7 +49,7 @@ export default function ProfileSideHeader({
   if (variant === 'minimal') {
     return (
       <Box w="100%" bg="blue.50" py={4} borderBottom="1px solid" borderColor="blue.100">
-        <Container maxW="1200px">
+        <Container maxW="1200px" mx="auto">
           <HStack align="center" gap={3}>
             <Box
               as="button"
@@ -92,7 +92,7 @@ export default function ProfileSideHeader({
   // Full: 뒤로 가기 버튼 + 세부 정보 포함
   return (
     <Box w="100%" bg="blue.50" py={8} borderBottom="1px solid" borderColor="blue.100">
-      <Container maxW="1200px">
+      <Container maxW="1200px" mx="auto">
         <VStack align="center" gap={6}>
           {/* 뒤로 가기 버튼 */}
           {showBackButton && (

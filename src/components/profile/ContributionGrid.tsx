@@ -128,7 +128,7 @@ export default function ContributionGrid({
     <Flex direction="column" gap={3}>
       <HStack align="flex-start" gap={6}>
         {/* 잔디 영역 */}
-        <Box w="100%" maxW="62.5rem" overflowX="auto" ref={scrollContainerRef}>
+        <Box w="100%" maxW="65rem" overflowX="auto" ref={scrollContainerRef}>
           <Flex direction="column" gap={3} minW="fit-content">
             <Box>
               {/* 월 라벨 */}

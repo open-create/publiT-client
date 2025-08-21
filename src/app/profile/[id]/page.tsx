@@ -203,7 +203,7 @@ export default function UserProfilePage() {
   ];
 
   return (
-    <Box w="100%" h="100%">
+    <Box w="100%" h="100%" display="flex" flexDirection="column" alignItems="center">
       {/* 프로필 헤더 */}
       <ProfileSideHeader
         username={userProfile.username}
@@ -216,7 +216,7 @@ export default function UserProfilePage() {
       />
 
       {/* 메인 영역 */}
-      <Container maxW="1200px" py={8}>
+      <Container maxW="1200px" py={8} mx="auto">
         <VStack gap={12} align="stretch">
           {/* 기본 프로필 정보 (백엔드가 주는 필드만 노출) */}
           <Box border="1px solid" borderColor="gray.200" borderRadius="lg" p={6}>
@@ -237,7 +237,14 @@ export default function UserProfilePage() {
             <Heading size="lg" mb={6} color="blue.600">
               {totalPubls}개의 퍼블
             </Heading>
-            <Box border="1px solid" borderColor="gray.200" borderRadius="lg" p={6} w="fit-content">
+            <Box
+              border="1px solid"
+              borderColor="gray.200"
+              borderRadius="lg"
+              p={6}
+              w="fit-content"
+              mx="auto"
+            >
               <ContributionGrid
                 data={currentData}
                 selectedYear={selectedYear}
